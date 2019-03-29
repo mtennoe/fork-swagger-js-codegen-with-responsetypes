@@ -1,4 +1,4 @@
-import { merge } from "lodash";
+import { merge, camelCase } from "lodash";
 import { CodeGenOptions } from "./options/options";
 import { Swagger } from "./swagger/Swagger";
 import {
@@ -29,6 +29,8 @@ export interface ViewData {
   isSecureApiKey: boolean;
   isSecureBasic: boolean;
   methods: Method[];
+  methodsByTag: { [tag: string]: Method[] };
+  globalMethods: Method[];
   definitions: Definition[];
 }
 
@@ -56,14 +58,33 @@ export function getViewForSwagger2(opts: CodeGenOptions): ViewData {
           )}`
         : "",
     methods: [],
+    methodsByTag: {},
+    globalMethods: [],
     definitions: []
   };
 
-  data.methods = makeMethodsFromPaths(data, opts, swagger);
+  let methods = makeMethodsFromPaths(data, opts, swagger);
 
-  const latestVersions = getLatestVersionOfMethods(data.methods);
+  const latestVersions = getLatestVersionOfMethods(methods);
 
-  data.methods = data.methods.map(setIsLatestVersion(latestVersions));
+  methods = methods.map(setIsLatestVersion(latestVersions));
+
+  data.methods = methods;
+
+  for (const method of methods) {
+    if (method.tags.length === 0) {
+      data.globalMethods.push(method);
+      continue;
+    }
+    for (let tag of method.tags) {
+      tag = camelCase(tag);
+      if (data.methodsByTag[tag] === undefined) {
+        data.methodsByTag[tag] = [method];
+      } else {
+        data.methodsByTag[tag].push(method);
+      }
+    }
+  }
 
   data.definitions = makeDefinitionsFromSwaggerDefinitions(
     swagger.definitions,

@@ -67,6 +67,8 @@ function makeViewData(partial: Partial<ViewData> = {}): ViewData {
     className: "",
     imports: [],
     domain: "https://localhost:8080/api",
+    globalMethods: [],
+    methodsByTag: {},
     methods: [],
     definitions: [],
     ...partial

@@ -88,6 +88,7 @@ export interface HttpOperation {
     readonly [index: string]: SwaggerType;
   };
   readonly operationId: string;
+  readonly tags: ReadonlyArray<string>;
   readonly description: string;
   readonly summary: string;
   readonly externalDocs: string;

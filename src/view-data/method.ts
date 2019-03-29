@@ -7,6 +7,7 @@ import { getHeadersForMethod, Header } from "./headers";
 import { transform, camelCase } from "lodash";
 import { values, groupBy, sortBy, isUndefined, filter, map } from "lodash/fp";
 import { compose } from "lodash/fp";
+import { Method } from "../../lib/view-data/method";
 
 export interface Method {
   readonly methodName: string;
@@ -23,9 +24,11 @@ export interface Method {
   readonly method: string;
   readonly isGET: boolean;
   readonly isPOST: boolean;
+  readonly tags: ReadonlyArray<string>;
   readonly summary: string;
   readonly externalDocs: string;
   readonly parameters: TypeSpecParameter[];
+  readonly hasMultipleBodyParameters: boolean;
   readonly headers: Header[];
   readonly successfulResponseType: string;
   readonly successfulResponseTypeIsRef: boolean;
@@ -58,6 +61,7 @@ export function makeMethod(
     method: httpVerb.toUpperCase(),
     isGET: httpVerb.toUpperCase() === "GET",
     isPOST: httpVerb.toUpperCase() === "POST",
+    tags: op.tags || [],
     summary: op.description || op.summary,
     externalDocs: op.externalDocs,
     isSecure: swagger.security !== undefined || op.security !== undefined,
@@ -65,6 +69,9 @@ export function makeMethod(
     isSecureApiKey: secureTypes.indexOf("apiKey") !== -1,
     isSecureBasic: secureTypes.indexOf("basic") !== -1,
     parameters: getParametersForMethod(globalParams, op.parameters, swagger),
+    hasMultipleBodyParameters: checkIfMethodHasMupltipleBodyParameters(
+      op.parameters
+    ),
     headers: getHeadersForMethod(op, swagger),
     successfulResponseType,
     successfulResponseTypeIsRef,
@@ -97,6 +104,13 @@ function getPathToMethodName(httpVerb: string, path: string): string {
   return `${httpVerb.toLowerCase()}${result[0].toUpperCase()}${result.substring(
     1
   )}`;
+}
+
+function checkIfMethodHasMupltipleBodyParameters(
+  parameters: ReadonlyArray<Parameter>
+): boolean {
+  if (parameters === undefined) return false;
+  return parameters.filter(param => param.in === "body").length > 1;
 }
 
 const groupMethodsByMethodName = (methods: Method[]): Method[][] =>
