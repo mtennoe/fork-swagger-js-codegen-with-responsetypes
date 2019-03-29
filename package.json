@@ -35,10 +35,10 @@
   "homepage": "https://github.com/mtennoe/swagger-typescript-codegen",
   "dependencies": {
     "commander": "^2.19.0",
+    "handlebars": "^4.1.1",
     "js-beautify": "^1.8.9",
     "jshint": "^2.9.7",
     "lodash": "^4.17.11",
-    "mustache": "^3.0.1",
     "update-notifier": "^2.5.0"
   },
   "devDependencies": {

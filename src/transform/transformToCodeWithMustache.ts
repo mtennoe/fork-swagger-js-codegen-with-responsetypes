@@ -1,7 +1,6 @@
 import { readFileSync } from "fs";
-import * as Mustache from "mustache";
-import {} from "mustache";
-import { assign, identity } from "lodash";
+import * as Handlebars from "handlebars";
+import { assign } from "lodash";
 import { TemplateLocations } from "../options/options";
 import { join } from "path";
 
@@ -9,44 +8,33 @@ export const DEFAULT_TEMPLATE_PATH = join(__dirname, "..", "..", "templates");
 
 export type Templates = Record<keyof TemplateLocations, string>;
 
-type Renderer = {
-  readonly render: (
-    template: string,
-    view: any,
-    partials?: any,
-    tags?: string[]
-  ) => string;
-  escape?: (value: string) => string;
-};
-
 export function transformToCodeWithMustache<T, C extends {}>(
   data: T,
   templates: Partial<Templates>,
-  additionalViewOptions: Partial<C> = {},
-  codeRenderer: Renderer = Mustache
+  additionalViewOptions: Partial<C> = {}
 ): string {
-  // Ensure we don't encode special characters
-  codeRenderer.escape = identity;
-
   const loadedTemplates = loadTemplates(templates);
 
-  return codeRenderer.render(
-    loadedTemplates.class,
-    assign(data, additionalViewOptions),
-    loadedTemplates
-  );
+  const compiledMainTemplate = Handlebars.compile(loadedTemplates.class);
+
+  for (const [partialName, template] of Object.entries(loadedTemplates)) {
+    if (partialName === "class") continue;
+    Handlebars.registerPartial(partialName, template);
+  }
+
+  return compiledMainTemplate(assign(data, additionalViewOptions));
 }
 
 function loadTemplates(templateLocations: Partial<Templates> = {}): Templates {
   return {
     class:
       templateLocations.class ||
-      readFileSync(join(DEFAULT_TEMPLATE_PATH, "class.mustache"), "utf-8"),
+      readFileSync(join(DEFAULT_TEMPLATE_PATH, "class.hbs"), "utf-8"),
     method:
       templateLocations.method ||
-      readFileSync(join(DEFAULT_TEMPLATE_PATH, "method.mustache"), "utf-8"),
+      readFileSync(join(DEFAULT_TEMPLATE_PATH, "method.hbs"), "utf-8"),
     type:
       templateLocations.type ||
-      readFileSync(join(DEFAULT_TEMPLATE_PATH, "type.mustache"), "utf-8")
+      readFileSync(join(DEFAULT_TEMPLATE_PATH, "type.hbs"), "utf-8")
   };
 }
