@@ -1,0 +1,13 @@
+{{#with tsType}}
+    {{~#if isRef~}}{{target}}
+    {{~else if isAtomic~}}{{{tsType}}}
+    {{else if isObject}} {
+        {{#each properties}} '{{name}}'{{#unless isRequired}}?{{/unless}}:
+        {{~#if isRef~}}{{target}}
+        {{~else if isAtomic~}}{{{tsType}}}
+        {{else if isDictionary}}{[key: string]: {{#if elementType}}{{tsType}}{{/if}}
+        {{else}}{{{tsType}}}{{~/if~}};
+        {{~/each~}}
+    }
+    {{~/if~}}
+{{/with}}

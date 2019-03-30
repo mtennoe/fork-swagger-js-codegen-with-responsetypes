@@ -1,8 +1,8 @@
 {
-  "name": "swagger-typescript-codegen",
+  "name": "swagger-typescript-axios",
   "main": "./lib/codegen.js",
   "version": "1.9.7",
-  "description": "A Swagger Codegenerator tailored for typescript.",
+  "description": "A Swagger Codegenerator tailored for typescript - based on axios.",
   "scripts": {
     "pretest": "npm run build",
     "test": "grunt && jest",

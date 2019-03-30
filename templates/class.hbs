@@ -1,0 +1,51 @@
+{{#imports}}
+    /// <reference path="{{&.}}" />
+{{/imports}}
+
+import { AxiosPromise, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import Axios from 'axios';
+
+{{#definitions}}
+    export interface {{&name}}  {{~> type~}}
+{{/definitions}}
+
+function setParam(distObject : any, key : string, param : any){
+    if(param !== undefined) distObject[key] = param;
+}
+
+export default function(axios : AxiosInstance = Axios.create({baseURL: '{{domain}}'})): ApiInstance{
+
+return {
+    $axios: axios,
+{{#each methodsByTag}}
+    {{@key}} : {
+    {{#each this}}
+        {{> method}}
+    {{/each}}
+    },
+{{/each}}
+{{#each globalMethods}}
+    {{> method}}
+{{/each}}
+}
+}
+
+interface Core {
+    $axios: AxiosInstance
+
+}
+
+
+export interface ApiInstance extends Core {
+{{#each methodsByTag}}
+    {{@key}} : {
+    {{#each this}}
+        {{> interface}}
+    {{/each}}
+    },
+{{/each}}
+{{#each globalMethods}}
+    {{> interface}}
+{{/each}}
+}
+

@@ -1,0 +1,5 @@
+{{#times 2}}
+    {{#eq @index 1}}${{/eq}}{{methodName}}({{#isEmpty parameters}}{{else}}parameters {{#if hasAllOptionalParameters}}?{{/if}}: {
+    {{#each parameters}}{{#unless isSingleton}}'{{camelCaseName}}'{{cardinality}}: {{> type}},{{/unless}}{{/each}}
+    }, {{/isEmpty}}config?: AxiosRequestConfig): {{#eq @index 0}}AxiosPromise{{else}}Promise{{/eq}}<{{{successfulResponseType}}}>
+{{/times}}

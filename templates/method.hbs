@@ -1,0 +1,63 @@
+/**
+* {{summary}}
+* @method
+{{#if externalDocs}}
+    * @see {@link {{url}}|{{#if description}}{{description}}{{/if}}{{#unless description}}External docs{{/unless}} }
+{{/if}}
+{{#each parameters}}
+    {{#unless isSingleton}} * @param  parameters.{{camelCaseName}} - {{{description}}} {{/unless}}
+{{/each}}
+*/
+{{methodName}}({{#isEmpty parameters}}{{else}}parameters, {{/isEmpty}}config){
+
+    let path = `{{pathFormatString}}`;
+    let queryParams : any = {};
+    let data : any = {};
+
+    {{#isEmpty parameters}}{{else}}
+        {{#if hasAllOptionalParameters}}if(parameters !== undefined){ {{/if}}
+    {{#each parameters~}}
+        {{#if isQueryParameter~}}
+
+            {{~#if isSingleton}}
+                queryParams['{{name}}'] = '{{singleton}}';
+            {{/if}}
+            {{#unless isSingleton}}
+                {{#if isPatternType}}
+                    Object.keys(parameters).forEach(function(parameterName) {
+                        if(new RegExp('{{&pattern}}').test(parameterName)){
+                            queryParams[parameterName] = parameters[parameterName];
+                        }
+                    });
+                {{else}}
+                    setParam(queryParams, '{{name}}',  parameters['{{camelCaseName}}']);
+                {{/if}}
+            {{/unless~}}
+
+        {{~else if isBodyParameter~}}
+            {{#or ../hasMultipleBodyParameters isAtomic}}
+            {{!--  data['{{name}}'] = parameters['{{camelCaseName}}']; --}}
+                setParam(data, '{{name}}',  parameters['{{camelCaseName}}']);
+          {{else}}
+              data = parameters['{{camelCaseName}}'];
+          {{/or}}
+      {{~/if~}}
+
+      {{!-- TODO: FormParameter & HeaderParameter --}}
+    {{~/each}}
+        {{#if hasAllOptionalParameters}} } {{/if}}
+    {{/isEmpty}}
+
+    return axios.request({
+        url: path,
+        method: '{{method}}',
+        params: queryParams,
+        data: data,
+        ...config
+    })
+
+},
+
+${{methodName}}({{#isEmpty parameters}}{{else}}parameters, {{/isEmpty}}config){
+    return this.{{methodName}}({{#isEmpty parameters}}{{else}}parameters, {{/isEmpty}}config).then(res => res && res.data)
+},
