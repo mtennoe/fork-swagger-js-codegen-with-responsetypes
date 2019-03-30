@@ -6,6 +6,7 @@ export interface TemplateLocations {
   readonly method: string;
   readonly type: string;
   readonly interface: string;
+  readonly [key: string]: string;
 }
 
 interface Options {

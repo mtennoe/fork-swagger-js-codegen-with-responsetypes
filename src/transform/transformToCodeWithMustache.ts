@@ -3,6 +3,7 @@ import * as Handlebars from "handlebars";
 import { assign } from "lodash";
 import { TemplateLocations } from "../options/options";
 import * as hbsHelper from "handlebars-helpers";
+import { isAbsolute } from "path";
 
 hbsHelper(["comparison", "collection", "array"]);
 
@@ -38,10 +39,26 @@ export function transformToCodeWithMustache<T, C extends {}>(
 }
 
 function loadTemplates(templateLocations: TemplateLocations): Templates {
+  const PREDEFINED_TEMPLATES = ["class", "method", "type", "interface"];
+  const customTemplates: Templates = {};
+
+  for (const templateName in templateLocations) {
+    if (PREDEFINED_TEMPLATES.indexOf(templateName) > -1) continue;
+    customTemplates[templateName] = loadTemplate(
+      templateLocations[templateName]
+    );
+  }
+
   return {
-    class: readFileSync(templateLocations.class, "utf-8"),
-    method: readFileSync(templateLocations.method, "utf-8"),
-    type: readFileSync(templateLocations.type, "utf-8"),
-    interface: readFileSync(templateLocations.interface, "utf-8")
+    class: loadTemplate(templateLocations.class),
+    method: loadTemplate(templateLocations.method),
+    type: loadTemplate(templateLocations.type),
+    interface: loadTemplate(templateLocations.interface),
+    ...customTemplates
   };
+}
+
+function loadTemplate(path: string): string {
+  if (!isAbsolute(path)) throw new Error("Template path must be absolute");
+  return readFileSync(path, "utf-8");
 }
