@@ -1,5 +1,5 @@
-import { Swagger } from "../swagger/Swagger";
-import { join } from "path";
+import { HttpOperation, Swagger } from "../swagger/Swagger";
+import { DEFAULT_OPTIONS } from "./default";
 
 export interface TemplateLocations {
   readonly class: string;
@@ -9,34 +9,20 @@ export interface TemplateLocations {
   readonly [key: string]: string;
 }
 
-interface Options {
+export interface Options {
   readonly isES6: boolean;
   readonly imports: ReadonlyArray<string>;
   readonly template: TemplateLocations;
   readonly beautify: boolean;
   readonly hbsContext: any;
   readonly beautifyOptions: JsBeautifyOptions;
+  getNamespace(tag: string): string;
+  getMethodName(op: HttpOperation, httpVerb: string, path: string): string;
 }
 
 interface SwaggerOption {
   readonly swagger: Swagger;
 }
-
-export const DEFAULT_TEMPLATE_PATH = join(__dirname, "..", "..", "templates");
-
-const DEFAULT_OPTIONS: Options = {
-  isES6: false,
-  imports: [],
-  template: {
-    class: join(DEFAULT_TEMPLATE_PATH, "class.hbs"),
-    method: join(DEFAULT_TEMPLATE_PATH, "method.hbs"),
-    type: join(DEFAULT_TEMPLATE_PATH, "type.hbs"),
-    interface: join(DEFAULT_TEMPLATE_PATH, "interface.hbs")
-  },
-  beautify: true,
-  hbsContext: {},
-  beautifyOptions: {}
-};
 
 // This is the internal interface we use to reference to the full Options object with defaults
 export interface CodeGenOptions extends Options, SwaggerOption {}

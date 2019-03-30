@@ -7,7 +7,6 @@ import { getHeadersForMethod, Header } from "./headers";
 import { transform, camelCase } from "lodash";
 import { values, groupBy, sortBy, isUndefined, filter, map } from "lodash/fp";
 import { compose } from "lodash/fp";
-import { Method } from "../../lib/view-data/method";
 
 export interface Method {
   readonly methodName: string;
@@ -19,7 +18,6 @@ export interface Method {
   readonly isSecureBasic: boolean;
   readonly path: string;
   readonly pathFormatString: string;
-  readonly className: string;
   readonly version: string;
   readonly method: string;
   readonly isGET: boolean;
@@ -44,9 +42,7 @@ export function makeMethod(
   secureTypes: string[],
   globalParams: ReadonlyArray<Parameter>
 ): Method {
-  const methodName = op.operationId
-    ? normalizeName(op.operationId)
-    : getPathToMethodName(httpVerb, path);
+  const methodName = opts.getMethodName(op, httpVerb, path);
   const [
     successfulResponseType,
     successfulResponseTypeIsRef
@@ -55,7 +51,6 @@ export function makeMethod(
   return {
     path,
     pathFormatString: path.replace(/{/g, "${parameters."),
-    className: opts.className,
     methodName,
     version: getVersion(path),
     intVersion: getIntVersion(path),
@@ -85,11 +80,11 @@ export function makeMethod(
 
 const charactersToBeReplacedWithUnderscore = /\.|\-|\{|\}/g;
 
-function normalizeName(id: string): string {
+export function normalizeName(id: string): string {
   return id.replace(charactersToBeReplacedWithUnderscore, "_");
 }
 
-function getPathToMethodName(httpVerb: string, path: string): string {
+export function getPathToMethodName(httpVerb: string, path: string): string {
   // clean url path for requests ending with '/'
   const cleanPath = path.replace(/\/$/, "");
 
@@ -108,6 +103,10 @@ function getPathToMethodName(httpVerb: string, path: string): string {
   return `${httpVerb.toLowerCase()}${result[0].toUpperCase()}${result.substring(
     1
   )}`;
+}
+
+export function getNamespace(tag: string) {
+  return camelCase(tag);
 }
 
 function checkIfMethodHasMupltipleBodyParameters(

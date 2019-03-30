@@ -1,4 +1,4 @@
-import { merge, camelCase } from "lodash";
+import { merge } from "lodash";
 import { CodeGenOptions } from "./options/options";
 import { Swagger } from "./swagger/Swagger";
 import {
@@ -73,7 +73,7 @@ export function getViewForSwagger2(opts: CodeGenOptions): ViewData {
       continue;
     }
     for (let tag of method.tags) {
-      tag = camelCase(tag);
+      tag = opts.getNamespace(tag);
       if (data.methodsByTag[tag] === undefined) {
         data.methodsByTag[tag] = [method];
       } else {
