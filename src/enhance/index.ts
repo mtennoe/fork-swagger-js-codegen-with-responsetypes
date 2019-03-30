@@ -1,7 +1,7 @@
-import { beautifyCode, Beautify, BeautifyOptions } from "./beautify";
+import { beautifyCode, BeautifyOptions } from "./beautify";
 
 export interface EnhanceOptions {
-  beautify: Beautify;
+  beautify: boolean;
   beautifyOptions: BeautifyOptions;
 }
 

@@ -1,4 +1,3 @@
-import { isObject, isString } from "lodash";
 import {
   CodeGenOptions,
   ProvidedCodeGenOptions,
@@ -12,20 +11,13 @@ function getCode(opts: CodeGenOptions): string {
   verifyThatWeAreGeneratingForSwagger2(opts);
 
   const data = getViewForSwagger2(opts);
-  return transformToCodeWithMustache(data, opts.template, opts.mustache);
+  return transformToCodeWithMustache(data, opts.template, opts.hbsContext);
 }
 
 export const CodeGen = {
   transformToViewData: getViewForSwagger2,
   transformToCodeWithMustache,
-  getTypescriptCode: function(opts: ProvidedCodeGenOptions) {
-    const options = makeOptions(opts);
-
-    return enhanceCode(getCode(options), options);
-  },
-  getCustomCode: function(opts: ProvidedCodeGenOptions) {
-    verifyThatWeHaveRequiredTemplatesForCustomGenerationTarget(opts);
-
+  generateCode: function(opts: ProvidedCodeGenOptions) {
     const options = makeOptions(opts);
 
     return enhanceCode(getCode(options), options);
@@ -37,22 +29,6 @@ export const CodeGen = {
     return { data, options };
   }
 };
-
-function verifyThatWeHaveRequiredTemplatesForCustomGenerationTarget(
-  opts: ProvidedCodeGenOptions
-) {
-  // TODO: Why do we not check for the existence of the type template?
-  if (
-    !opts.template ||
-    !isObject(opts.template) ||
-    !isString(opts.template.class) ||
-    !isString(opts.template.method)
-  ) {
-    throw new Error(
-      'Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }'
-    );
-  }
-}
 
 function verifyThatWeAreGeneratingForSwagger2(opts: CodeGenOptions): void {
   if (opts.swagger.swagger !== "2.0") {

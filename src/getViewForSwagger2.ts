@@ -21,8 +21,6 @@ export interface ViewData {
   isES6: boolean;
   description: string;
   isSecure: boolean;
-  moduleName: string;
-  className: string;
   imports: ReadonlyArray<string>;
   domain: string;
   isSecureToken: boolean;
@@ -44,8 +42,6 @@ export function getViewForSwagger2(opts: CodeGenOptions): ViewData {
     isSecureToken: false,
     isSecureApiKey: false,
     isSecureBasic: false,
-    moduleName: opts.moduleName,
-    className: opts.className,
     imports: opts.imports,
     domain:
       swagger.schemes &&

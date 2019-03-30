@@ -2,7 +2,6 @@ import { readFileSync } from "fs";
 import * as Handlebars from "handlebars";
 import { assign } from "lodash";
 import { TemplateLocations } from "../options/options";
-import { join } from "path";
 import * as hbsHelper from "handlebars-helpers";
 
 hbsHelper(["comparison", "collection", "array"]);
@@ -19,13 +18,11 @@ Handlebars.registerHelper("times", function(n, block) {
   return accum;
 });
 
-export const DEFAULT_TEMPLATE_PATH = join(__dirname, "..", "..", "templates");
-
 export type Templates = Record<keyof TemplateLocations, string>;
 
 export function transformToCodeWithMustache<T, C extends {}>(
   data: T,
-  templates: Partial<Templates>,
+  templates: TemplateLocations,
   additionalViewOptions: Partial<C> = {}
 ): string {
   const loadedTemplates = loadTemplates(templates);
@@ -40,19 +37,11 @@ export function transformToCodeWithMustache<T, C extends {}>(
   return compiledMainTemplate(assign(data, additionalViewOptions));
 }
 
-function loadTemplates(templateLocations: Partial<Templates> = {}): Templates {
+function loadTemplates(templateLocations: TemplateLocations): Templates {
   return {
-    class:
-      templateLocations.class ||
-      readFileSync(join(DEFAULT_TEMPLATE_PATH, "class.hbs"), "utf-8"),
-    method:
-      templateLocations.method ||
-      readFileSync(join(DEFAULT_TEMPLATE_PATH, "method.hbs"), "utf-8"),
-    type:
-      templateLocations.type ||
-      readFileSync(join(DEFAULT_TEMPLATE_PATH, "type.hbs"), "utf-8"),
-    interface:
-      templateLocations.type ||
-      readFileSync(join(DEFAULT_TEMPLATE_PATH, "interface.hbs"), "utf-8")
+    class: readFileSync(templateLocations.class, "utf-8"),
+    method: readFileSync(templateLocations.method, "utf-8"),
+    type: readFileSync(templateLocations.type, "utf-8"),
+    interface: readFileSync(templateLocations.interface, "utf-8")
   };
 }
