@@ -1,7 +1,7 @@
 {
-  "name": "swagger-typescript-axios",
+  "name": "swagger-ts-codegen",
   "main": "./lib/codegen.js",
-  "version": "1.9.7",
+  "version": "1.0.0",
   "description": "A Swagger Codegenerator tailored for typescript - based on axios.",
   "scripts": {
     "pretest": "npm run build",
@@ -17,22 +17,25 @@
     "swagger2ts": "bin/swagger2ts.js"
   },
   "bugs": {
-    "url": "https://github.com/mtennoe/swagger-typescript-codegen/issues"
+    "url": "https://github.com/michalzaq12/swagger-ts-codegen/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mtennoe/swagger-typescript-codegen.git"
+    "url": "git://github.com/michalzaq12/swagger-ts-codegen.git"
   },
   "keywords": [
     "swagger",
-    "rest"
+    "rest",
+    "axios",
+    "typescript",
+    "codegen"
   ],
   "author": {
-    "name": "Marius Tennøe",
-    "email": "mariust@outlook.com"
+    "name": "Michał Zarach",
+    "email": "michal.m.zarach@gmail.com"
   },
   "license": "Apache-2.0",
-  "homepage": "https://github.com/mtennoe/swagger-typescript-codegen",
+  "homepage": "https://github.com/michalzaq12/swagger-ts-codegen",
   "dependencies": {
     "axios": "^0.18.0",
     "commander": "^2.19.0",
