@@ -1,13 +1,17 @@
-{{#imports}}
+{{#each imports}}
     /// <reference path="{{&.}}" />
-{{/imports}}
+{{/each}}
 
 import { AxiosPromise, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import Axios from 'axios';
 
-{{#definitions}}
-    export interface {{&name}}  {{~> type~}}
-{{/definitions}}
+{{#each definitions}}
+    {{#if tsType.isAtomic}}
+        export type {{name}} = {{{tsType.tsType}}}
+    {{else}}
+        export interface {{{name}}}  {{~> type~}}
+    {{/if}}
+{{/each}}
 
 function setParam(distObject : any, key : string, param : any){
     if(param !== undefined) distObject[key] = param;
