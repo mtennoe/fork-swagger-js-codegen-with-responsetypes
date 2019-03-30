@@ -2,84 +2,133 @@
 
 [![Build Status](https://travis-ci.com/mtennoe/swagger-typescript-codegen.svg?branch=master)](https://travis-ci.com/mtennoe/swagger-typescript-codegen)
 
-This package generates a TypeScript class from a [swagger specification file](https://github.com/wordnik/swagger-spec). The code is generated using [mustache templates](https://github.com/mtennoe/swagger-js-codegen/tree/master/lib/templates) and is quality checked by [jshint](https://github.com/jshint/jshint/) and beautified by [js-beautify](https://github.com/beautify-web/js-beautify).
+This package generates a TypeScript class from a [swagger specification file](https://github.com/wordnik/swagger-spec). The code is generated using [handlebars templates](https://handlebarsjs.com) and some [helpers](https://github.com/helpers/handlebars-helpers).
+Quality is checked by [jshint](https://github.com/jshint/jshint/) and beautified by [js-beautify](https://github.com/beautify-web/js-beautify).
 
-The typescript generator is based on [superagent](https://github.com/visionmedia/superagent) and can be used for both nodejs and the browser via browserify/webpack.
+The typescript generator is based on [axios](https://github.com/axios/axios) and can be used for both nodejs and the browser via browserify/webpack.
 
-This fork was made to simplify some parts, add some more features, and tailor it more to specific use cases.
+This fork improvements:
+
+- [x] Change template engine to more powerful handlebars
+- [x] Move more logic to template
+- [x] Change http client to [axios](https://github.com/axios/axios)
+- [x] Add support for grouping methods by swagger tags
+- [x] Custom parsing function for method name & namespace
+- [x] Custom extra templates
+- [x] Generate code contains exported api interface
+- [x] Each method has optional `config` parameter, which can override base request - [AxiosRequestConfig](https://github.com/axios/axios#request-config)
+
+To do:
+
+- [ ] Fix cli
+- [ ] Add example usage with Vue, Nuxt, React
 
 ## Installation
 
 ```bash
-npm install swagger-typescript-codegen
+npm install swagger-ts-codegen
 ```
 
-## Example
+## Examples
+
+### Generator - basic
 
 ```javascript
-var fs = require("fs");
-var CodeGen = require("swagger-typescript-codegen").CodeGen;
+const fs = require("fs");
+const path = require("path");
+const { CodeGen } = require("swagger-ts-codegen");
 
-var file = "swagger/spec.json";
-var swagger = JSON.parse(fs.readFileSync(file, "UTF-8"));
-var tsSourceCode = CodeGen.getTypescriptCode({
-  className: "Test",
-  swagger: swagger,
-  imports: ["../../typings/tsd.d.ts"]
+const file = path.resolve("./swagger/spec.json");
+const swaggerSpec = JSON.parse(fs.readFileSync(file, "UTF-8"));
+
+const tsSourceCode = CodeGen.generateCode({
+  swagger: swaggerSpec
 });
-console.log(tsSourceCode);
+
+const outputFile = path.join(__dirname, "api.ts");
+fs.writeFileSync(outputFile, tsSourceCode, { encoding: "UTF-8" });
 ```
 
-## Custom template
+### Generator - custom template
 
 ```javascript
-var source = CodeGen.getCustomCode({
-  moduleName: "Test",
-  className: "Test",
+const tsSourceCode = CodeGen.generateCode({
   swagger: swaggerSpec,
   template: {
-    class: fs.readFileSync("my-class.mustache", "utf-8"),
-    method: fs.readFileSync("my-method.mustache", "utf-8"),
-    type: fs.readFileSync("my-type.mustache", "utf-8")
+    method: path.resolve("./my-method.hbs"),
+    anyCustomPartialTemplate: path.resolve("./my-js-doc.hbs")
+    //available via {{> anyCustomPartialTemplate}} in all templates
   }
 });
 ```
 
+### Generated api usage (web)
+
+![](examples/gif1.gif)
+
+```typescript
+import axios from "axios";
+import { makeApi } from "./api.ts";
+
+const api = makeApi();
+
+// or pass axiosInstance
+
+const httpClient = axios.create({
+  baseURL: "http://swagger.io/api" //override domain form swagger spec
+});
+
+//additional client setup
+httpClient.defaults.timeout = 1000;
+//[...]
+
+const api2 = makeApi(httpClient);
+
+async function getUsers() {
+  const { data: users } = await api.userResource.get();
+  // or
+  const users2 = await api.userResource.$get();
+}
+```
+
 ## Options
 
-In addition to the common options listed below, `getCustomCode()` _requires_ a `template` field:
+- `swagger` - Swagger object \
+  Type: `object` \
+  Required `true`
 
-    template: { class: "...", method: "..." }
+- `template` - Absolute paths to templates (provided object is merged with default) \
+  Type: `object` \
+  Default: `{main: ..., type: ..., method: ..., interface: ...}`
 
-`getTypescriptCode()`, `getCustomCode()` each support the following options:
+- `imports` - Typescript definition files to be imported \
+  Type: `array` \
+  Default: `[]`
 
-```yaml
-moduleName:
-  type: string
-  description: Your module name
-className:
-  type: string
-beautify:
-  type: boolean
-  description: whether or not to beautify the generated code
-beautifyOptions:
-  type: object
-  description: Options to be passed to the beautify command. See js-beautify for all available options.
-mustache:
-  type: object
-  description: See the 'Custom Mustache Variables' section below
-imports:
-  type: array
-  description: Typescript definition files to be imported.
-swagger:
-  type: object
-  required: true
-  description: swagger object
-```
+- `hbsContext` - Custom variables injected to templates \
+  Type: `object` \
+  Default: `{}`
+
+- `getNamespace` - Custom parsing function \
+  Type: `Function` `getNamespace(tag: string) : string` \
+  Default: `tag => _.camelCase(tag)`
+
+- `getMethodName` - Custom parsing function \
+  Type: `Function` `getMethodName(op: HttpOperation, httpVerb: string, path: string) : string` \
+  [HttpOperation](https://swagger.io/specification/#operationObject) \
+  Default: `(op, httpVerb, path) => op.operationId || ...`
+
+- `beautify` - Whether or not to beautify the generated code \
+  Type: `boolean` \
+  Default: `true`
+
+- `beautifyOptions` - Options to be passed to the beautify command. See js-beautify for all available options. \
+  Type: `object` \
+  Default: `{}`
 
 ### Template Variables
 
-The following data are passed to the [mustache templates](https://github.com/janl/mustache.js):
+The following data are passed to the [hbs templates](https://handlebarsjs.com):
 
 ```yaml
 isES6:
@@ -90,12 +139,6 @@ description:
 isSecure:
   type: boolean
   description: false unless 'swagger.securityDefinitions' is defined
-moduleName:
-  type: string
-  description: Your module name - provided by your options field
-className:
-  type: string
-  description: Provided by your options field
 domain:
   type: string
   description: If all options defined: swagger.schemes[0] + '://' + swagger.host + swagger.basePath
@@ -117,21 +160,6 @@ methods:
       method:
         type: string
         description: 'GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'COPY', 'HEAD', 'OPTIONS', 'LINK', 'UNLINK', 'PURGE', 'LOCK', 'UNLOCK', 'PROPFIND'
-        enum:
-        - GET
-        - POST
-        - PUT
-        - DELETE
-        - PATCH
-        - COPY
-        - HEAD
-        - OPTIONS
-        - LINK
-        - UNLINK
-        - PURGE
-        - LOCK
-        - UNLOCK
-        - PROPFIND
       isGET:
         type: string
         description: true if method === 'GET'
@@ -191,21 +219,6 @@ methods:
       successfulResponseTypeIsRef:
         type: boolean
         description: True iff the successful response type is the name of a type defined in the Swagger schema.
-```
-
-#### Custom Mustache Variables
-
-You can also pass in your own variables for the mustache templates by adding a `mustache` object:
-
-```javascript
-var source = CodeGen.getCustomCode({
-    ...
-    mustache: {
-      foo: 'bar',
-      app_build_id: env.BUILD_ID,
-      app_version: pkg.version
-    }
-});
 ```
 
 ## Swagger Extensions
