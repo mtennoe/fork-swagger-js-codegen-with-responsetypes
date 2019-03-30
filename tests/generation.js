@@ -74,9 +74,7 @@ list.forEach(function(file) {
     var swagger = JSON.parse(fs.readFileSync(file, "UTF-8"));
     var result;
     if (swagger.swagger === "2.0") {
-      result = CodeGen.getTypescriptCode({
-        moduleName: "Test",
-        className: "Test",
+      result = CodeGen.generateCode({
         swagger: swagger
       });
       assert(
@@ -85,17 +83,15 @@ list.forEach(function(file) {
       );
       assert(typeof result, "string");
     }
-    result = CodeGen.getCustomCode({
-      moduleName: "Test",
-      className: "Test",
+    result = CodeGen.generateCode({
       swagger: swagger,
       template: {
         class: fs.readFileSync(
-          __dirname + "/../templates/class.mustache",
+          __dirname + "/../templates/class.hbs",
           "utf-8"
         ),
         method: fs.readFileSync(
-          __dirname + "/../templates/method.mustache",
+          __dirname + "/../templates/method.hbs",
           "utf-8"
         )
       }
