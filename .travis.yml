@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-  - "10"
+- '10'
 deploy:
   provider: npm
-  email: mariust@outlook.com
+  email: michal.m.zarach@gmail.com
   skip_cleanup: true
   api_key:
-    secure: lreacC7XuNx3oR4buSB/ToxWx23Wg/6UvNUId9sVh2CoY74GreJVzxGJAb1Rjngoa+w6vL/e67QDD0+PXN+9APuDMLBPX/8ohGeQtzeNpSGfv4/7h45tmzwAVvWKW29EDdvR3RZ1PXkD8nTtZmzVX6yRHrm9UhvyotnX7lpAww4YTFX7+CEHcQkFluBrJHzPrEQKC8iYDgCdqwLH0ZBS5N2i41wxj63v6f47QLGCcJFjFiblROcEJENZf2Z1rE5vQ4rle4GLQeh13RKj+jC4I9QwfXs8LC3oNnWL3iA69+/H5vr4kZt/mHGrFGRuwyhOhNIpS3DcsOSWL788Ru7TLZ23TgQ18vQ6T3lyPXzsa+NFW6zlPx1XB5RNbvWU4lDvsIjcZoYUff3Y1CV6JR3XM4VNcOkQ42BKFkGYrwecszTY0WTLkeeHqnqig/lG5bHg256ytIjPC+IVMei76OWeMlw0wgd/cpimPCQpR40zM8SLl16DwMF5A1owIQMWaH97IM7ydX1VIcHWCDSZ1W8+vVeihj1LgJvs3zEHUyA4iu/96UhCAp6AniPKe5SXkF9FzJH0PJ1X5VLpGERZDwC9yBXqiTIueUxFvd3hAxB6fOcQ72uKLZBCxgIyysxQX6l7FyIZ/0cuE758aIzhhIjJh8fHrjBKNDyqygeSlfBQ244=
+    secure: Hek7CjFSs1tVbC7BpSvhmryMkVoXWZs2ZtpE0F7gQ9E3FWnRxHfIKoJ4W5OSgyiBDokOlfv/P5LXAu7IzLbL4alRPv1D9s9brPtSNupmaV/qPmYi3vyoVWBk+tSu1CAQb7lIF4Lx2sSFNyp+/zchUq5wlepen8Cd/rpevWNMGu2EgvsXmHh6Nkm+0V+nf3bBdpj6na9hiHGKTVefSlzJ63hJd+EbrdJBnKSlsHwsJRD6pjz2SRqXCvkyM+DxFfuH94WWeNfbUg9lLg2osOZd3z+DGE/0QejpWDsd/3gZqdXnno6jlx5xR0N0ij3M3D86OUu/1/MR/VZzCsiofKMxyoHak6Ofsu23v+U/OHAx/ebnL356y4YTt2H8ieltmtZR71YXvYTWRyNZITflbX8POIuYi5RgES0vdQdFxyQ1WRMYM5IltDayxqxTS6I20wHkJgj7BSbu5VcshmCbPgiDqRlyHblisImr54DynsxqbJX8sW0i6NDVITcr2v4wbCgIEjMpw56hNQv/UQkw2iWIUOry4upn2vzObphPUO9AL7ZqYniWW6M88Vwpa5M9KCZIdCvZx48P5TemIjLULgGQZAWt9TQmslZr8kaXfXAKbCrfEdR3OXZi4eKmCIOQQ5Z8i+8BscXt4+fwEAIBjMLcoUL40pTVfxskjZyIxIpfmKE=
   on:
     tags: true
-    repo: mtennoe/swagger-typescript-codegen
+    repo: michalzaq12/swagger-ts-codegen
     branch: master
