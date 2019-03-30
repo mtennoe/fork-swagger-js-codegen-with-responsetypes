@@ -36,7 +36,7 @@ npm install swagger-ts-codegen
 ```javascript
 const fs = require("fs");
 const path = require("path");
-const { CodeGen } = require("swagger-ts-codegen");
+const { CodeGen } = require("swagger-taxos-codegen");
 
 const file = path.resolve("./swagger/spec.json");
 const swaggerSpec = JSON.parse(fs.readFileSync(file, "UTF-8"));

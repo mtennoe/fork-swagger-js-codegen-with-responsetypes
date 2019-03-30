@@ -1,5 +1,5 @@
 {
-  "name": "swagger-ts-codegen",
+  "name": "swagger-taxos-codegen",
   "main": "./lib/codegen.js",
   "version": "2.0.0",
   "description": "A Swagger Codegenerator tailored for typescript - based on axios.",
@@ -17,11 +17,11 @@
     "swagger2ts": "bin/swagger2ts.js"
   },
   "bugs": {
-    "url": "https://github.com/michalzaq12/swagger-ts-codegen/issues"
+    "url": "https://github.com/michalzaq12/swagger-taxos-codegen/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/michalzaq12/swagger-ts-codegen.git"
+    "url": "git://github.com/michalzaq12/swagger-taxos-codegen.git"
   },
   "keywords": [
     "swagger",
@@ -35,7 +35,7 @@
     "email": "michal.m.zarach@gmail.com"
   },
   "license": "Apache-2.0",
-  "homepage": "https://github.com/michalzaq12/swagger-ts-codegen",
+  "homepage": "https://github.com/michalzaq12/swagger-taxos-codegen",
   "dependencies": {
     "axios": "^0.18.0",
     "commander": "^2.19.0",
