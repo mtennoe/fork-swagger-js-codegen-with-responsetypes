@@ -3,6 +3,7 @@
 var assert = require("assert");
 var vows = require("vows");
 var fs = require("fs");
+var path = require('path');
 var ffs = require("final-fs");
 var ts = require("typescript");
 var tmp = require("tmp");
@@ -86,14 +87,8 @@ list.forEach(function(file) {
     result = CodeGen.generateCode({
       swagger: swagger,
       template: {
-        class: fs.readFileSync(
-          __dirname + "/../templates/class.hbs",
-          "utf-8"
-        ),
-        method: fs.readFileSync(
-          __dirname + "/../templates/method.hbs",
-          "utf-8"
-        )
+        class: path.join(__dirname, '../templates/class.hbs'),
+        method: path.join(__dirname, '../templates/method.hbs')
       }
     });
     assert(typeof result, "string");
