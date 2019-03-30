@@ -1,6 +1,5 @@
 import { CodeGen } from "./codegen";
 import { Swagger } from "./swagger/Swagger";
-import { Templates } from "./transform/transformToCodeWithMustache";
 
 describe("CodeGen", () => {
   let swagger = {
@@ -35,42 +34,6 @@ describe("CodeGen", () => {
       expect(() =>
         CodeGen.generateCode({ swagger, template: customTemplates })
       ).toThrow("Only Swagger 2 specs are supported");
-    });
-
-    it("throws when the template option is not provided", () => {
-      const customTemplates = (undefined as any) as Templates;
-
-      expect(() =>
-        CodeGen.generateCode({ swagger, template: customTemplates })
-      ).toThrow(
-        'Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }'
-      );
-    });
-
-    it("throws when the class template is not provided", () => {
-      const customTemplates = {
-        method: "function <methodName>() {}",
-        type: "type <typeName>"
-      };
-
-      expect(() =>
-        CodeGen.generateCode({ swagger, template: customTemplates })
-      ).toThrow(
-        'Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }'
-      );
-    });
-
-    it("throws when the method template is not provided", () => {
-      const customTemplates = {
-        class: "class <className> {<classContent>}",
-        type: "type <typeName>"
-      };
-
-      expect(() =>
-        CodeGen.generateCode({ swagger, template: customTemplates })
-      ).toThrow(
-        'Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }'
-      );
     });
   });
 });
