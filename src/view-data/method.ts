@@ -28,6 +28,7 @@ export interface Method {
   readonly summary: string;
   readonly externalDocs: string;
   readonly parameters: TypeSpecParameter[];
+  readonly hasAllOptionalParameters: boolean;
   readonly hasMultipleBodyParameters: boolean;
   readonly headers: Header[];
   readonly successfulResponseType: string;
@@ -69,6 +70,9 @@ export function makeMethod(
     isSecureApiKey: secureTypes.indexOf("apiKey") !== -1,
     isSecureBasic: secureTypes.indexOf("basic") !== -1,
     parameters: getParametersForMethod(globalParams, op.parameters, swagger),
+    hasAllOptionalParameters: checkIfMethodHasAllOptionalParameters(
+      op.parameters
+    ),
     hasMultipleBodyParameters: checkIfMethodHasMupltipleBodyParameters(
       op.parameters
     ),
@@ -111,6 +115,13 @@ function checkIfMethodHasMupltipleBodyParameters(
 ): boolean {
   if (parameters === undefined) return false;
   return parameters.filter(param => param.in === "body").length > 1;
+}
+
+function checkIfMethodHasAllOptionalParameters(
+  parameters: ReadonlyArray<Parameter>
+): boolean {
+  if (parameters === undefined) return true;
+  return parameters.filter(param => param.required).length === 0;
 }
 
 const groupMethodsByMethodName = (methods: Method[]): Method[][] =>
