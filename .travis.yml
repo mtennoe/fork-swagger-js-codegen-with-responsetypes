@@ -9,5 +9,5 @@ deploy:
     secure: Oe0sgXCh+6NlEOkZnT86gCDpnHzvf73M3L1sxBeMmHj2dLZ48lhAv81sxscXmOo9bZTcBpwS6YorANQmZw3tc6a4zSd0qHoiGX2s7UiPLNgVqYn9+l6S9NK+u75bYY4jvEYIhxoKC1fy8n/y/RNOZ+Z63dCnWQBSL+RKdRKZA/v1ZbGMPuOG6x0f7BbyTu9xAg80TdlFstECLoj6QiGMFhr11A9YYx3/zZQ3gfFWVLzB/if1seYe0xTTa+jYzIU2PAn2gFOIou4rDcEyG8KfwhhlhDuB0gAekYyCkKvbZBtoukqyOVmnWL6V9OxjkgmV2PUx793UsXmnB4QeoG78KCAAf6AL14sLdl9TjJMzNlnXhy3WT9pGCY2DH9V/72UDRnXIlO7UTS+TIBmvOSdo8G4EuRAwx2m/JJeVf011JXe+Rw/DotRweGS8P0SVPlIfbvRUWxPJbTqwr0/cS/Ct8ojY40q+xQyNY1UQYpjhG5xvAKu2fsVqiLJQEol4hktYZ2i0erJGyKi1QbFdaiaSTvAFHl6zFg3QuEieL+HXmHCqThVmHQPSKTHyEvXrFAHctAP496Xk7ROlquPk8+5dypeMItbaWe15qGrQST1GUuR/bi4eZfGz9cOi7GHr5FS/JwgbfPBM/pSHAxZ6Cp7esR7fK0is72vB+1puAFBVNwQ=
   on:
     tags: true
-    repo: michalzaq12/swagger-ts-codegen
+    repo: michalzaq12/swagger-taxos-codegen
     branch: master
