@@ -68,9 +68,9 @@ const tsSourceCode = CodeGen.generateCode({
 
 ```typescript
 import axios from "axios";
-import { makeApi } from "./api.ts";
+import { createApi } from "./api.ts";
 
-const api = makeApi();
+const api = createApi();
 
 // or pass axiosInstance
 
@@ -82,7 +82,7 @@ const httpClient = axios.create({
 httpClient.defaults.timeout = 1000;
 //[...]
 
-const api2 = makeApi(httpClient);
+const api2 = createApi(httpClient);
 
 async function getUsers() {
   const { data: users } = await api.userResource.get();
