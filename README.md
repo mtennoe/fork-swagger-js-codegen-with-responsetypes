@@ -124,7 +124,7 @@ async function getUsers() {
 
 - `beautifyOptions` - Options to be passed to the beautify command. See js-beautify for all available options. \
   Type: `object` \
-  Default: `{}`
+  Default: `{indent_size: 4, max_preserve_newlines: 2}`
 
 ### Template Variables
 

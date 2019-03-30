@@ -8,9 +8,7 @@ cli
   .command("generate <file>")
   .description("Generate from Swagger file")
   .action((file: string) => {
-    const result = CodeGen.getTypescriptCode({
-      moduleName: "Test",
-      className: "Test",
+    const result = CodeGen.generateCode({
       swagger: JSON.parse(fs.readFileSync(file, "utf-8"))
     });
     console.log(result);

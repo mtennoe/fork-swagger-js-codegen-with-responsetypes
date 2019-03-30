@@ -25,14 +25,16 @@ describe("makeOptions", () => {
     });
   });
 
-  it("merges in the options that are passed with higher priority", () => {
+  it("merges provided templates", () => {
     const partialOptions = {
       swagger: {} as Swagger,
-      className: "GeneratedDataLayer"
+      template: {
+        myExtraTemplate: "C://template.hbs"
+      }
     };
 
     const options = makeOptions(partialOptions);
 
-    expect(options.className).toBe("GeneratedDataLayer");
+    expect(options.template.length).toBe(5);
   });
 });

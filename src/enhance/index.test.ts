@@ -7,8 +7,8 @@ describe("enhanceCode", () => {
   it("calls beautify with the correct arguments", () => {
     const code = `function helloWorld(){return'hello world'};`;
 
-    enhanceCode(code, { beautify: undefined, beautifyOptions: {} });
+    enhanceCode(code, { beautify: false, beautifyOptions: {} });
 
-    expect(beautifyCode).toBeCalledWith(undefined, code, {});
+    expect(beautifyCode).toBeCalledWith(false, code, {});
   });
 });

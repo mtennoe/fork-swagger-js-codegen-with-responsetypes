@@ -5,12 +5,6 @@ const beautified = `function helloWorld() {
 };`;
 
 describe("beautify", (): void => {
-  it("returns the beautified code when no beautify param was specified", () => {
-    const code = `function helloWorld(){return'hello world'};`;
-
-    expect(beautifyCode(undefined, code)).toBe(beautified);
-  });
-
   it("returns the beautified code when true was specified", () => {
     const code = `function helloWorld(){return'hello world'};`;
 
@@ -21,14 +15,5 @@ describe("beautify", (): void => {
     const code = `function helloWorld(){return'hello world'};`;
 
     expect(beautifyCode(false, code)).toBe(code);
-  });
-
-  it("runs the function that was specified", () => {
-    const code = `function helloWorld(){return'hello world'};`;
-    const prettify = jest.fn();
-
-    beautifyCode(prettify, code);
-
-    expect(prettify).toBeCalledWith(code);
   });
 });

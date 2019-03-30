@@ -6,23 +6,16 @@ const DEFAULT_BEAUTIFY_OPTIONS: JsBeautifyOptions = {
   max_preserve_newlines: 2
 };
 
-export type Beautify = ((source: string) => string) | boolean | undefined;
-
 export type BeautifyOptions = JsBeautifyOptions;
 
 export function beautifyCode(
-  beautify: Beautify,
+  beautify: boolean,
   source: string,
   options: BeautifyOptions = {}
 ): string {
   // Backwards compatible js_beautify
-  if (beautify === undefined || beautify === true) {
+  if (beautify) {
     return js_beautify(source, defaults(options, DEFAULT_BEAUTIFY_OPTIONS));
-  }
-
-  // Run the beautify function if it has been provided
-  if (typeof beautify === "function") {
-    return beautify(source);
   }
 
   // Return original source if no beautify option was given

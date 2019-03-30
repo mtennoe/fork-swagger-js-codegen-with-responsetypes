@@ -63,8 +63,6 @@ function makeViewData(partial: Partial<ViewData> = {}): ViewData {
     isSecureToken: false,
     isSecureApiKey: false,
     isSecureBasic: false,
-    moduleName: "",
-    className: "",
     imports: [],
     domain: "https://localhost:8080/api",
     globalMethods: [],

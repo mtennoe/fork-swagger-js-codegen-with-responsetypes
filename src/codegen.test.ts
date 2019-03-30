@@ -14,7 +14,7 @@ describe("CodeGen", () => {
         swagger: "3.0"
       };
 
-      expect(() => CodeGen.getTypescriptCode({ swagger })).toThrow(
+      expect(() => CodeGen.generateCode({ swagger })).toThrow(
         "Only Swagger 2 specs are supported"
       );
     });
@@ -33,7 +33,7 @@ describe("CodeGen", () => {
       };
 
       expect(() =>
-        CodeGen.getCustomCode({ swagger, template: customTemplates })
+        CodeGen.generateCode({ swagger, template: customTemplates })
       ).toThrow("Only Swagger 2 specs are supported");
     });
 
@@ -41,7 +41,7 @@ describe("CodeGen", () => {
       const customTemplates = (undefined as any) as Templates;
 
       expect(() =>
-        CodeGen.getCustomCode({ swagger, template: customTemplates })
+        CodeGen.generateCode({ swagger, template: customTemplates })
       ).toThrow(
         'Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }'
       );
@@ -54,7 +54,7 @@ describe("CodeGen", () => {
       };
 
       expect(() =>
-        CodeGen.getCustomCode({ swagger, template: customTemplates })
+        CodeGen.generateCode({ swagger, template: customTemplates })
       ).toThrow(
         'Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }'
       );
@@ -67,7 +67,7 @@ describe("CodeGen", () => {
       };
 
       expect(() =>
-        CodeGen.getCustomCode({ swagger, template: customTemplates })
+        CodeGen.generateCode({ swagger, template: customTemplates })
       ).toThrow(
         'Unprovided custom template. Please use the following template: template: { class: "...", method: "...", request: "..." }'
       );
