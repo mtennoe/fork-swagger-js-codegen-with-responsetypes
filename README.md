@@ -1,24 +1,26 @@
 # Swagger to Typescript Codegen
 
-[![Build Status](https://travis-ci.com/mtennoe/swagger-typescript-codegen.svg?branch=master)](https://travis-ci.com/mtennoe/swagger-typescript-codegen)
+[![Build Status](https://travis-ci.org/michalzaq12/swagger-taxos-codegen.svg?branch=master)](https://travis-ci.org/michalzaq12/swagger-taxos-codegen)
+[![npm version](https://badge.fury.io/js/swagger-taxos-codegen.svg)](https://badge.fury.io/js/swagger-taxos-codegen)
 
-This package generates a TypeScript class from a [swagger specification file](https://github.com/wordnik/swagger-spec). The code is generated using [handlebars templates](https://handlebarsjs.com) and some [helpers](https://github.com/helpers/handlebars-helpers).
-Quality is checked by [jshint](https://github.com/jshint/jshint/) and beautified by [js-beautify](https://github.com/beautify-web/js-beautify).
+> This package generates a TypeScript class from a [swagger specification file](https://github.com/wordnik/swagger-spec). The code is generated using [handlebars templates](https://handlebarsjs.com) and some [helpers](https://github.com/helpers/handlebars-helpers).
+> Quality is checked by [jshint](https://github.com/jshint/jshint/) and beautified by [js-beautify](https://github.com/beautify-web/js-beautify).
 
-The typescript generator is based on [axios](https://github.com/axios/axios) and can be used for both nodejs and the browser via browserify/webpack.
+> The typescript generator is based on [axios](https://github.com/axios/axios) and can be used for both nodejs and the browser via browserify/webpack.
 
-This fork improvements:
+**This fork improvements:**
 
 - [x] Change template engine to more powerful handlebars
 - [x] Move more logic to template
 - [x] Change http client to [axios](https://github.com/axios/axios)
 - [x] Add support for grouping methods by swagger tags
 - [x] Custom parsing function for method name & namespace
+- [x] Support multiple body parameters
 - [x] Custom extra templates
 - [x] Generate code contains exported api interface
 - [x] Each method has optional `config` parameter, which can override base request - [AxiosRequestConfig](https://github.com/axios/axios#request-config)
 
-To do:
+**To do:**
 
 - [ ] Fix cli
 - [ ] Add example usage with Vue, Nuxt, React
@@ -26,12 +28,14 @@ To do:
 ## Installation
 
 ```bash
-npm install swagger-ts-codegen
+npm install swagger-taxos-codegen
 ```
 
-## Examples
+## Usage
 
-### Generator - basic
+### Generator
+
+- #### Basic
 
 ```javascript
 const fs = require("fs");
@@ -49,49 +53,79 @@ const outputFile = path.join(__dirname, "api.ts");
 fs.writeFileSync(outputFile, tsSourceCode, { encoding: "UTF-8" });
 ```
 
-### Generator - custom template
+- #### Custom parsing functions - generator
 
 ```javascript
 const tsSourceCode = CodeGen.generateCode({
   swagger: swaggerSpec,
-  template: {
-    method: path.resolve("./my-method.hbs"),
-    anyCustomPartialTemplate: path.resolve("./my-js-doc.hbs")
-    //available via {{> anyCustomPartialTemplate}} in all templates
-  }
+  getNamespace: tag => tag.toUpperCase(),
+  getMethodName: (op, httpVerb, path) => op.summary
 });
 ```
 
-### Generated api usage (web)
+### Generated api
 
 ![](examples/gif1.gif)
 
+- #### Basic
+
 ```typescript
-import axios from "axios";
-import { createApi } from "./api.ts";
+import { createApi } from "./api.ts"; // -> path to generated api
 
 const api = createApi();
 
-// or pass axiosInstance
-
-const httpClient = axios.create({
-  baseURL: "http://swagger.io/api" //override domain form swagger spec
-});
-
-//additional client setup
-httpClient.defaults.timeout = 1000;
-//[...]
-
-const api2 = createApi(httpClient);
-
 async function getUsers() {
-  const { data: users } = await api.userResource.get();
-  // or
-  const users2 = await api.userResource.$get();
+  const { data } = await api.userResource.get();
 }
 ```
 
-## Options
+- #### Advanced
+
+```typescript
+import axios from "axios";
+import { createApi } from "./api.ts"; // -> path to generated api
+
+//--------------------------create instance------------------------------
+
+const httpClient = axios.create({
+  baseURL: "http://swagger.io/api" // -> override domain from swagger spec
+});
+
+httpClient.interceptors.request.use(function() {
+  /*...*/
+}); // -> additional setup
+
+const api = createApi(httpClient);
+
+//--------------------------call endpoint-------------------------------
+
+async function getUsers() {
+  const { data } = await api.userResource.get();
+  // OR
+  const users = await api.userResource.$get();
+}
+```
+
+- #### Vue
+
+```typescript
+//plugin.ts
+import { createApi, ApiInstance } from "./api.ts";
+
+export default {
+  install(vue, opts) {
+    vue.prototype.$api = createApi();
+  }
+};
+
+declare module "vue/types/vue" {
+  interface Vue {
+    $api: ApiInstance;
+  }
+}
+```
+
+## Generator options
 
 - `swagger` - Swagger object \
   Type: `object` \
@@ -125,6 +159,19 @@ async function getUsers() {
 - `beautifyOptions` - Options to be passed to the beautify command. See js-beautify for all available options. \
   Type: `object` \
   Default: `{indent_size: 4, max_preserve_newlines: 2}`
+
+## Custom templates
+
+```javascript
+const tsSourceCode = CodeGen.generateCode({
+  swagger: swaggerSpec,
+  template: {
+    method: path.resolve("./my-method.hbs"),
+    anyCustomPartialTemplate: path.resolve("./my-js-doc.hbs")
+    //available via {{> anyCustomPartialTemplate}} in all templates
+  }
+});
+```
 
 ### Template Variables
 
