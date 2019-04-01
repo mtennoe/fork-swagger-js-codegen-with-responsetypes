@@ -17,7 +17,7 @@ function setParam(distObject : any, key : string, param : any){
     if(param !== undefined) distObject[key] = param;
 }
 
-export default function(axios : AxiosInstance = Axios.create({baseURL: '{{domain}}'})): ApiInstance{
+export function createApi(axios : AxiosInstance = Axios.create({baseURL: '{{domain}}'})): ApiInstance{
 
 return {
     $axios: axios,

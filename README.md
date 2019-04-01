@@ -1,6 +1,7 @@
 # Swagger to Typescript Codegen
 
-[![Build Status](https://travis-ci.org/michalzaq12/swagger-taxos-codegen.svg?branch=master)](https://travis-ci.org/michalzaq12/swagger-taxos-codegen)
+[![Build Status](https://travis-ci.org/michalzaq12/swagger-taxos-codegen.svg?branch=master)](https://travis-ci.org/michalzaq12/swagger-taxos-codegen)
+
 [![npm version](https://badge.fury.io/js/swagger-taxos-codegen.svg)](https://badge.fury.io/js/swagger-taxos-codegen)
 
 > This package generates a TypeScript class from a [swagger specification file](https://github.com/wordnik/swagger-spec). The code is generated using [handlebars templates](https://handlebarsjs.com) and some [helpers](https://github.com/helpers/handlebars-helpers).
@@ -67,7 +68,7 @@ const tsSourceCode = CodeGen.generateCode({
 
 ![](examples/gif1.gif)
 
-- #### Basic
+- **Basic**
 
 ```typescript
 import { createApi } from "./api.ts"; // -> path to generated api
@@ -79,7 +80,7 @@ async function getUsers() {
 }
 ```
 
-- #### Advanced
+- **Advanced**
 
 ```typescript
 import axios from "axios";
@@ -106,7 +107,7 @@ async function getUsers() {
 }
 ```
 
-- #### Vue
+- **Vue**
 
 ```typescript
 //plugin.ts
