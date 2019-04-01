@@ -5,7 +5,7 @@
         {{#each properties}} '{{name}}'{{#unless isRequired}}?{{/unless}}:
         {{~#if isRef~}}{{target}}
         {{~else if isAtomic~}}{{{tsType}}}
-        {{else if isDictionary}}{[key: string]: {{#if elementType}}{{tsType}}{{/if}}
+        {{else if isDictionary}} {[key: string]: {{#if elementType}} {{tsType}}  {{else}} any {{/if}} }
         {{else}}{{{tsType}}}{{~/if~}};
         {{~/each~}}
     }
