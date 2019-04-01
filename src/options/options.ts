@@ -19,6 +19,7 @@ export interface TemplateLocations {
 
 export interface Options {
   readonly isES6: boolean;
+  readonly includeDeprecated: boolean;
   readonly imports: ReadonlyArray<string>;
   readonly template: TemplateLocationsOptional;
   readonly beautify: boolean;

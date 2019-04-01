@@ -12,6 +12,7 @@ const DEFAULT_TEMPLATE_PATH = join(__dirname, "..", "..", "templates");
 export const DEFAULT_OPTIONS: Options = {
   isES6: false,
   imports: [],
+  includeDeprecated: false,
   template: {
     class: join(DEFAULT_TEMPLATE_PATH, "class.hbs"),
     method: join(DEFAULT_TEMPLATE_PATH, "method.hbs"),

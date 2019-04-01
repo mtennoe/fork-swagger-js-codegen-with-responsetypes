@@ -10,6 +10,7 @@ import { compose } from "lodash/fp";
 
 export interface Method {
   readonly methodName: string;
+  readonly isDeprecated: boolean;
   readonly intVersion: number;
   readonly isLatestVersion: boolean;
   readonly isSecure: boolean;
@@ -52,6 +53,7 @@ export function makeMethod(
     path,
     pathFormatString: path.replace(/{/g, "${parameters."),
     methodName,
+    isDeprecated: op.deprecated,
     version: getVersion(path),
     intVersion: getIntVersion(path),
     method: httpVerb.toUpperCase(),
