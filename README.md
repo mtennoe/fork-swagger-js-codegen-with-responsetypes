@@ -36,7 +36,7 @@ npm install swagger-taxos-codegen
 
 ### Generator
 
-- #### Basic
+- **Basic**
 
 ```javascript
 const fs = require("fs");
@@ -54,7 +54,7 @@ const outputFile = path.join(__dirname, "api.ts");
 fs.writeFileSync(outputFile, tsSourceCode, { encoding: "UTF-8" });
 ```
 
-- #### Custom parsing functions - generator
+- **Custom parsing functions**
 
 ```javascript
 const tsSourceCode = CodeGen.generateCode({
