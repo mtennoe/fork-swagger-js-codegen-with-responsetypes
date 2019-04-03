@@ -1,10 +1,14 @@
 {{#times 2}}
     {{#eq @index 1}}${{/eq}}{{methodName}}(
-    {{^isEmpty parameters}}parameters {{#if hasAllOptionalParameters}}?{{/if}}: {
-        {{#each parameters}}
-            {{#unless isSingleton}}'{{camelCaseName}}'{{cardinality}}: {{> type}},{{/unless}}
-        {{/each}}
-    },
-    {{/isEmpty}}
-    config?: AxiosRequestConfig): {{#eq @index 0}}AxiosPromise{{else}}Promise{{/eq}}<{{{successfulResponseType}}}>
+    {{#equalsLength parameters 1}}
+        {{parameters.0.camelCaseName}} {{#with parameters.[0]}} {{cardinality}} : {{> type}} {{/with}}
+    {{else}}
+        {{^isEmpty parameters}}parameters {{#if hasAllOptionalParameters}}?{{/if}}: {
+            {{#each parameters}}
+                {{#unless isSingleton}}'{{camelCaseName}}'{{cardinality}}: {{> type}},{{/unless}}
+            {{/each}}
+        }
+        {{/isEmpty}}
+    {{/equalsLength}}
+    , config?: AxiosRequestConfig): {{#eq @index 0}}AxiosPromise{{else}}Promise{{/eq}}<{{{successfulResponseType}}}>
 {{/times}}

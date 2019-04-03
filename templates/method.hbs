@@ -11,44 +11,29 @@
     {{#unless isSingleton}} * @param  parameters.{{camelCaseName}} - {{{description}}} {{/unless}}
 {{/each}}
 */
-{{methodName}}({{#isEmpty parameters}}{{else}}parameters, {{/isEmpty}}config){
+{{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}},{{/isEmpty}}config){
 
-    let path = `{{pathFormatString}}`;
+    {{#equalsLength parameters 1}}
+        let path = `{{pathTemplate}}`;
+    {{else}}
+        let path = `{{pathTemplateForParameters}}`;
+    {{/equalsLength}}
     let queryParams : any = {};
     let data : any = {};
 
-    {{#isEmpty parameters}}{{else}}
+    {{^isEmpty parameters}}
+        {{#equalsLength parameters 1}}
+            {{#with parameters.[0]}}
+                {{> parameter key=camelCaseName}}
+            {{/with}}
+        {{else}}
+
         {{#if hasAllOptionalParameters}}if(parameters !== undefined){ {{/if}}
     {{#each parameters~}}
-        {{#if isQueryParameter~}}
-
-            {{~#if isSingleton}}
-                queryParams['{{name}}'] = '{{singleton}}';
-            {{/if}}
-            {{#unless isSingleton}}
-                {{#if isPatternType}}
-                    Object.keys(parameters).forEach(function(parameterName) {
-                        if(new RegExp('{{&pattern}}').test(parameterName)){
-                            queryParams[parameterName] = parameters[parameterName];
-                        }
-                    });
-                {{else}}
-                    setParam(queryParams, '{{name}}',  parameters['{{camelCaseName}}']);
-                {{/if}}
-            {{/unless~}}
-
-        {{~else if isBodyParameter~}}
-            {{#or ../hasMultipleBodyParameters isAtomic}}
-            {{!--  data['{{name}}'] = parameters['{{camelCaseName}}']; --}}
-                setParam(data, '{{name}}',  parameters['{{camelCaseName}}']);
-          {{else}}
-              data = parameters['{{camelCaseName}}'];
-          {{/or}}
-      {{~/if~}}
-
-      {{!-- TODO: FormParameter & HeaderParameter --}}
+        {{> parameter key=(concat 'parameters["' camelCaseName '"]') hasMultipleBodyParameters=../hasMultipleBodyParameters}}
     {{~/each}}
         {{#if hasAllOptionalParameters}} } {{/if}}
+        {{/equalsLength}}
     {{/isEmpty}}
 
     return axios.request({
@@ -61,6 +46,6 @@
 
 },
 
-${{methodName}}({{#isEmpty parameters}}{{else}}parameters, {{/isEmpty}}config){
-    return this.{{methodName}}({{#isEmpty parameters}}{{else}}parameters, {{/isEmpty}}config).then(res => res && res.data)
+${{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}}{{/isEmpty}}, config){
+    return this.{{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}}{{/isEmpty}}, config).then(res => res && res.data)
 },

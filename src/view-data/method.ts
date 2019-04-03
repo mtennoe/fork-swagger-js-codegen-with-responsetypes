@@ -18,7 +18,8 @@ export interface Method {
   readonly isSecureApiKey: boolean;
   readonly isSecureBasic: boolean;
   readonly path: string;
-  readonly pathFormatString: string;
+  readonly pathTemplateForParameters: string;
+  readonly pathTemplate: string;
   readonly version: string;
   readonly method: string;
   readonly isGET: boolean;
@@ -51,7 +52,8 @@ export function makeMethod(
 
   return {
     path,
-    pathFormatString: path.replace(/{/g, "${parameters."),
+    pathTemplateForParameters: path.replace(/{/g, "${parameters."),
+    pathTemplate: path.replace(/{/g, "${"),
     methodName,
     isDeprecated: op.deprecated,
     version: getVersion(path),

@@ -1,19 +1,14 @@
 import { HttpOperation, Swagger } from "../swagger/Swagger";
 import { DEFAULT_OPTIONS } from "./default";
 
-export interface TemplateLocationsOptional {
-  readonly main?: string;
-  readonly method?: string;
-  readonly type?: string;
-  readonly interface?: string;
-  readonly [key: string]: string | undefined;
-}
+export interface TemplateLocationsOptional extends Partial<TemplateLocations> {}
 
 export interface TemplateLocations {
   readonly main: string;
   readonly method: string;
   readonly type: string;
   readonly interface: string;
+  readonly parameter: string;
   readonly [key: string]: string;
 }
 

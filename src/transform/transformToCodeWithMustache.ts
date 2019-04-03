@@ -19,6 +19,8 @@ Handlebars.registerHelper("times", function(n, block) {
   return accum;
 });
 
+Handlebars.registerHelper("concat", (...args) => args.slice(0, -1).join(""));
+
 export type Templates = Record<keyof TemplateLocations, string>;
 
 export function transformToCodeWithMustache<T, C extends {}>(
@@ -28,7 +30,9 @@ export function transformToCodeWithMustache<T, C extends {}>(
 ): string {
   const loadedTemplates = loadTemplates(templates);
 
-  const compiledMainTemplate = Handlebars.compile(loadedTemplates.main);
+  const compiledMainTemplate = Handlebars.compile(loadedTemplates.main, {
+    noEscape: true
+  });
 
   for (const [partialName, template] of Object.entries(loadedTemplates)) {
     if (partialName === "main") continue;
