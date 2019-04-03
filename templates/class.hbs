@@ -40,13 +40,18 @@ interface Core {
 }
 
 
-export interface ApiInstance extends Core {
 {{#each methodsByTag}}
-    {{@key}} : {
+    interface {{@key}}Resource {
     {{#each this}}
         {{> interface}}
     {{/each}}
-    },
+    }
+{{/each}}
+
+
+export interface ApiInstance extends Core {
+{{#each methodsByTag}}
+    {{@key}} : {{@key}}Resource
 {{/each}}
 {{#each globalMethods}}
     {{> interface}}
