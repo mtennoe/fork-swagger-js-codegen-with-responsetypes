@@ -2,7 +2,7 @@
     /// <reference path="{{&.}}" />
 {{/each}}
 
-import { AxiosPromise, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+import { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
 import Axios from 'axios';
 
 {{#each definitions}}
@@ -19,24 +19,24 @@ function setParam(distObject : any, key : string, param : any){
 
 export function createApi(axios : AxiosInstance = Axios.create({baseURL: '{{domain}}'})): ApiInstance{
 
-return {
-    $axios: axios,
-{{#each methodsByTag}}
-    {{@key}} : {
-    {{#each this}}
-        {{> method}}
-    {{/each}}
-    },
-{{/each}}
-{{#each globalMethods}}
-    {{> method}}
-{{/each}}
-}
+    return {
+        $axios: axios,
+        {{#each methodsByTag}}
+            {{@key}} : {
+            {{#each this}}
+                {{> method}}
+            {{/each}}
+            },
+        {{/each}}
+        {{#each globalMethods}}
+            {{> method}}
+        {{/each}}
+    }
+
 }
 
 interface Core {
     $axios: AxiosInstance
-
 }
 
 
@@ -50,11 +50,11 @@ interface Core {
 
 
 export interface ApiInstance extends Core {
-{{#each methodsByTag}}
-    {{@key}} : {{@key}}Resource
-{{/each}}
-{{#each globalMethods}}
-    {{> interface}}
-{{/each}}
+    {{#each methodsByTag}}
+        {{@key}} : {{@key}}Resource
+    {{/each}}
+    {{#each globalMethods}}
+        {{> interface}}
+    {{/each}}
 }
 
