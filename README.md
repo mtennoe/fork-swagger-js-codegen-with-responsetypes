@@ -132,6 +132,10 @@ declare module "vue/types/vue" {
   Type: `object` \
   Required `true`
 
+- `includeDeprecated` - Generate code for deprecated methods \
+  Type: `boolean` \
+  Default `false`
+
 - `template` - Absolute paths to templates (provided object is merged with default) \
   Type: `object` \
   Default: `{main: ..., type: ..., method: ..., interface: ...}`
