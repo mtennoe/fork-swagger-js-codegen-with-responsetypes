@@ -14,7 +14,7 @@
     "prettier": "prettier --write \"src/**/*.ts\""
   },
   "bin": {
-    "swagger2ts": "bin/swagger2ts.js"
+    "taxos": "bin/taxos.js"
   },
   "bugs": {
     "url": "https://github.com/michalzaq12/swagger-taxos-codegen/issues"
@@ -28,7 +28,8 @@
     "rest",
     "axios",
     "typescript",
-    "codegen"
+    "codegen",
+    "openapi"
   ],
   "author": {
     "name": "Michał Zarach",
