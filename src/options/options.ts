@@ -2,7 +2,7 @@ import { HttpOperation, Swagger } from "../swagger/Swagger";
 import { DEFAULT_OPTIONS } from "./default";
 
 export interface TemplateLocationsOptional {
-  readonly class?: string;
+  readonly main?: string;
   readonly method?: string;
   readonly type?: string;
   readonly interface?: string;
@@ -10,7 +10,7 @@ export interface TemplateLocationsOptional {
 }
 
 export interface TemplateLocations {
-  readonly class: string;
+  readonly main: string;
   readonly method: string;
   readonly type: string;
   readonly interface: string;

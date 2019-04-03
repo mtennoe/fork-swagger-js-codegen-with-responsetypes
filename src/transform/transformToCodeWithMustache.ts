@@ -28,10 +28,10 @@ export function transformToCodeWithMustache<T, C extends {}>(
 ): string {
   const loadedTemplates = loadTemplates(templates);
 
-  const compiledMainTemplate = Handlebars.compile(loadedTemplates.class);
+  const compiledMainTemplate = Handlebars.compile(loadedTemplates.main);
 
   for (const [partialName, template] of Object.entries(loadedTemplates)) {
-    if (partialName === "class") continue;
+    if (partialName === "main") continue;
     Handlebars.registerPartial(partialName, template);
   }
 
@@ -39,7 +39,7 @@ export function transformToCodeWithMustache<T, C extends {}>(
 }
 
 function loadTemplates(templateLocations: TemplateLocations): Templates {
-  const PREDEFINED_TEMPLATES = ["class", "method", "type", "interface"];
+  const PREDEFINED_TEMPLATES = ["main", "method", "type", "interface"];
   const customTemplates: Templates = {};
 
   for (const templateName in templateLocations) {
@@ -50,7 +50,7 @@ function loadTemplates(templateLocations: TemplateLocations): Templates {
   }
 
   return {
-    class: loadTemplate(templateLocations.class),
+    main: loadTemplate(templateLocations.main),
     method: loadTemplate(templateLocations.method),
     type: loadTemplate(templateLocations.type),
     interface: loadTemplate(templateLocations.interface),

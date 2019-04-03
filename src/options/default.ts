@@ -14,7 +14,7 @@ export const DEFAULT_OPTIONS: Options = {
   imports: [],
   includeDeprecated: false,
   template: {
-    class: join(DEFAULT_TEMPLATE_PATH, "class.hbs"),
+    main: join(DEFAULT_TEMPLATE_PATH, "main.hbs"),
     method: join(DEFAULT_TEMPLATE_PATH, "method.hbs"),
     type: join(DEFAULT_TEMPLATE_PATH, "type.hbs"),
     interface: join(DEFAULT_TEMPLATE_PATH, "interface.hbs")
