@@ -18,7 +18,8 @@ export const DEFAULT_OPTIONS: Options = {
     method: join(DEFAULT_TEMPLATE_PATH, "method.hbs"),
     type: join(DEFAULT_TEMPLATE_PATH, "type.hbs"),
     interface: join(DEFAULT_TEMPLATE_PATH, "interface.hbs"),
-    parameter: join(DEFAULT_TEMPLATE_PATH, "parameter.hbs")
+    parameter: join(DEFAULT_TEMPLATE_PATH, "parameter.hbs"),
+    jsdoc: join(DEFAULT_TEMPLATE_PATH, "jsdoc.hbs")
   },
   beautify: true,
   hbsContext: {},
@@ -32,3 +33,5 @@ export const DEFAULT_OPTIONS: Options = {
       : getPathToMethodName(httpVerb, path);
   }
 };
+
+export const PREDEFINED_TEMPLATES = Object.keys(DEFAULT_OPTIONS.template);

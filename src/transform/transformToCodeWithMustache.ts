@@ -4,6 +4,7 @@ import { assign } from "lodash";
 import { TemplateLocations } from "../options/options";
 import * as hbsHelper from "handlebars-helpers";
 import { isAbsolute } from "path";
+import { PREDEFINED_TEMPLATES } from "../options/default";
 
 hbsHelper(["comparison", "collection", "array"]);
 
@@ -43,7 +44,6 @@ export function transformToCodeWithMustache<T, C extends {}>(
 }
 
 function loadTemplates(templateLocations: TemplateLocations): Templates {
-  const PREDEFINED_TEMPLATES = ["main", "method", "type", "interface"];
   const customTemplates: Templates = {};
 
   for (const templateName in templateLocations) {
@@ -56,6 +56,8 @@ function loadTemplates(templateLocations: TemplateLocations): Templates {
   return {
     main: loadTemplate(templateLocations.main),
     method: loadTemplate(templateLocations.method),
+    jsdoc: loadTemplate(templateLocations.jsdoc),
+    parameter: loadTemplate(templateLocations.parameter),
     type: loadTemplate(templateLocations.type),
     interface: loadTemplate(templateLocations.interface),
     ...customTemplates

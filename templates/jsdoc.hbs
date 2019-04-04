@@ -1,0 +1,22 @@
+/**
+* {{summary}}
+* @method
+{{#if isDeprecated}}
+    * @deprecated
+{{/if}}
+{{#if externalDocs}}
+    * @see {@link {{url}}|{{#if description}}{{description}}{{/if}}{{#unless description}}External docs{{/unless}} }
+{{/if}}
+{{~^equalsLength parameters 1~}}* @param { object } parameters{{/equalsLength}}
+* @param { object } config
+{{#equalsLength parameters 1}} * @param {{parameters.0.camelCaseName}} - {{{description}}} {{else}}
+    {{~#each parameters~}}
+        {{~#unless isSingleton~}}
+            * @param { {{> type}} }
+            {{~#unless required}}[{{/unless~}}
+            parameters.{{~camelCaseName~}}
+            {{~#unless required}}]{{/unless}} - {{{description}}}
+        {{/unless}}
+    {{~/each}}
+{{/equalsLength}}
+*/

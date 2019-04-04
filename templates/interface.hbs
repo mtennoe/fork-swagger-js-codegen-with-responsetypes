@@ -7,8 +7,8 @@
             {{#each parameters}}
                 {{#unless isSingleton}}'{{camelCaseName}}'{{cardinality}}: {{> type}},{{/unless}}
             {{/each}}
-        }
+        },
         {{/isEmpty}}
     {{/equalsLength}}
-    , config?: AxiosRequestConfig): {{#eq @index 0}}AxiosPromise{{else}}Promise{{/eq}}<{{{successfulResponseType}}}>
+     config?: AxiosRequestConfig): {{#eq @index 0}}AxiosPromise{{else}}Promise{{/eq}}<{{{successfulResponseType}}}>
 {{/times}}

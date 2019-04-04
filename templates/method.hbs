@@ -1,16 +1,4 @@
-/**
-* {{summary}}
-* @method
-{{#if isDeprecated}}
-    * @deprecated
-{{/if}}
-{{#if externalDocs}}
-    * @see {@link {{url}}|{{#if description}}{{description}}{{/if}}{{#unless description}}External docs{{/unless}} }
-{{/if}}
-{{#each parameters}}
-    {{#unless isSingleton}} * @param  parameters.{{camelCaseName}} - {{{description}}} {{/unless}}
-{{/each}}
-*/
+{{> jsdoc}}
 {{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}},{{/isEmpty}}config){
 
     {{#equalsLength parameters 1}}
@@ -46,6 +34,6 @@
 
 },
 
-${{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}}{{/isEmpty}}, config){
-    return this.{{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}}{{/isEmpty}}, config).then(res => res && res.data)
+${{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}},{{/isEmpty}} config){
+    return this.{{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}}, {{/isEmpty}} config).then(res => res && res.data)
 },
