@@ -1,13 +1,11 @@
 # Swagger to Typescript Codegen
 
-[![Build Status](https://travis-ci.org/michalzaq12/swagger-taxos-codegen.svg?branch=master)](https://travis-ci.org/michalzaq12/swagger-taxos-codegen)
-
+[![Build Status](https://travis-ci.org/michalzaq12/swagger-taxos-codegen.svg?branch=master)](https://travis-ci.org/michalzaq12/swagger-taxos-codegen)
 [![npm version](https://badge.fury.io/js/swagger-taxos-codegen.svg)](https://badge.fury.io/js/swagger-taxos-codegen)
 
-> This package generates a TypeScript class from a [swagger specification file](https://github.com/wordnik/swagger-spec). The code is generated using [handlebars templates](https://handlebarsjs.com) and some [helpers](https://github.com/helpers/handlebars-helpers).
-> Quality is checked by [jshint](https://github.com/jshint/jshint/) and beautified by [js-beautify](https://github.com/beautify-web/js-beautify).
+This package generates a TypeScript class from a [swagger specification file](https://github.com/wordnik/swagger-spec).
 
-> The typescript generator is based on [axios](https://github.com/axios/axios) and can be used for both nodejs and the browser via browserify/webpack.
+The typescript generator is based on [axios](https://github.com/axios/axios) and can be used for both nodejs and the browser via browserify/webpack.
 
 **This fork improvements:**
 
@@ -23,7 +21,8 @@
 
 **To do:**
 
-- [ ] Fix cli
+- [ ] Support form parameter
+- [ ] Support header parameter
 - [ ] Add example usage with Vue, Nuxt, React
 
 ## Installation
@@ -34,7 +33,17 @@ npm install swagger-taxos-codegen
 
 ## Usage
 
-### Generator
+### Cli
+
+```
+npx taxos <swaggerFile> -o [outputFile]
+```
+
+```
+npx taxos ./swagger.json
+```
+
+### Generator API
 
 - **Basic**
 
@@ -64,7 +73,7 @@ const tsSourceCode = CodeGen.generateCode({
 });
 ```
 
-### Generated api
+### Generated code API
 
 ![](examples/gif1.gif)
 
@@ -138,7 +147,7 @@ declare module "vue/types/vue" {
 
 - `template` - Absolute paths to templates (provided object is merged with default) \
   Type: `object` \
-  Default: `{main: ..., type: ..., method: ..., interface: ...}`
+  Default: [See](https://github.com/michalzaq12/swagger-taxos-codegen/blob/master/src/options/default.ts)
 
 - `imports` - Typescript definition files to be imported \
   Type: `array` \
@@ -166,6 +175,9 @@ declare module "vue/types/vue" {
   Default: `{indent_size: 4, max_preserve_newlines: 2}`
 
 ## Custom templates
+
+> The code is generated using [handlebars templates](https://handlebarsjs.com) and some [helpers](https://github.com/helpers/handlebars-helpers).
+> Quality is checked by [jshint](https://github.com/jshint/jshint/) and beautified by [js-beautify](https://github.com/beautify-web/js-beautify).
 
 ```javascript
 const tsSourceCode = CodeGen.generateCode({
