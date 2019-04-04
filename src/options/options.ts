@@ -6,6 +6,7 @@ export interface TemplateLocationsOptional extends Partial<TemplateLocations> {}
 export interface TemplateLocations {
   readonly main: string;
   readonly method: string;
+  readonly methodSignature: string;
   readonly type: string;
   readonly interface: string;
   readonly parameter: string;

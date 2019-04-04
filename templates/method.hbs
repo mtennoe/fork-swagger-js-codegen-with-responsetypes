@@ -1,5 +1,5 @@
 {{> jsdoc}}
-{{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}},{{/isEmpty}}config){
+{{> methodSignature}}{
 
     {{#equalsLength parameters 1}}
         let path = `{{pathTemplate}}`;
@@ -34,6 +34,6 @@
 
 },
 
-${{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}},{{/isEmpty}} config){
-    return this.{{methodName}}({{^isEmpty parameters}}{{#equalsLength parameters 1}} {{parameters.0.camelCaseName}} {{else}}parameters{{/equalsLength}}, {{/isEmpty}} config).then(res => res && res.data)
+${{> methodSignature}}{
+    return this.{{> methodSignature}}.then(res => res && res.data)
 },

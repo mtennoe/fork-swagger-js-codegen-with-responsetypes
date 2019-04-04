@@ -1,0 +1,6 @@
+{{methodName}}(
+{{~^isEmpty parameters~}}
+    {{#equalsLength parameters 1}} {{parameters.0.camelCaseName}},
+    {{~else}}parameters,
+    {{~/equalsLength}}
+{{/isEmpty~}} config)

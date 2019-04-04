@@ -16,6 +16,7 @@ export const DEFAULT_OPTIONS: Options = {
   template: {
     main: join(DEFAULT_TEMPLATE_PATH, "main.hbs"),
     method: join(DEFAULT_TEMPLATE_PATH, "method.hbs"),
+    methodSignature: join(DEFAULT_TEMPLATE_PATH, "methodSignature.hbs"),
     type: join(DEFAULT_TEMPLATE_PATH, "type.hbs"),
     interface: join(DEFAULT_TEMPLATE_PATH, "interface.hbs"),
     parameter: join(DEFAULT_TEMPLATE_PATH, "parameter.hbs"),

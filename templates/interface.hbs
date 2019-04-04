@@ -1,7 +1,7 @@
 {{#times 2}}
     {{#eq @index 1}}${{/eq}}{{methodName}}(
     {{#equalsLength parameters 1}}
-        {{parameters.0.camelCaseName}} {{#with parameters.[0]}} {{cardinality}} : {{> type}} {{/with}}
+        {{parameters.0.camelCaseName}} {{#with parameters.[0]}} {{cardinality}} : {{> type}} {{/with}},
     {{else}}
         {{^isEmpty parameters}}parameters {{#if hasAllOptionalParameters}}?{{/if}}: {
             {{#each parameters}}
