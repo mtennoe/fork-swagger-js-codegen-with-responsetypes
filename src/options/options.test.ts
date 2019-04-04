@@ -1,5 +1,6 @@
 import { makeOptions } from "./options";
 import { Swagger } from "../swagger/Swagger";
+import { PREDEFINED_TEMPLATES } from "./default";
 
 describe("makeOptions", () => {
   it("merges provided templates", () => {
@@ -12,6 +13,8 @@ describe("makeOptions", () => {
 
     const options = makeOptions(partialOptions);
 
-    expect(Object.keys(options.template).length).toBe(5);
+    expect(Object.keys(options.template).length).toBe(
+      PREDEFINED_TEMPLATES.length + 1
+    );
   });
 });

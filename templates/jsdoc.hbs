@@ -7,7 +7,7 @@
 {{#if externalDocs}}
     * @see {@link {{url}}|{{#if description}}{{description}}{{/if}}{{#unless description}}External docs{{/unless}} }
 {{/if}}
-{{~^equalsLength parameters 1~}}* @param { object } parameters{{/equalsLength}}
+{{~^isEmpty parameters~}}{{~^equalsLength parameters 1~}}* @param { object } parameters{{~/equalsLength~}}{{~/isEmpty}}
 * @param { object } config
 {{#equalsLength parameters 1}} * @param {{parameters.0.camelCaseName}} - {{{description}}} {{else}}
     {{~#each parameters~}}

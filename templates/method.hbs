@@ -17,9 +17,9 @@
         {{else}}
 
         {{#if hasAllOptionalParameters}}if(parameters !== undefined){ {{/if}}
-    {{#each parameters~}}
-        {{> parameter key=(concat 'parameters["' camelCaseName '"]') hasMultipleBodyParameters=../hasMultipleBodyParameters}}
-    {{~/each}}
+            {{#each parameters~}}
+                {{> parameter key=(concat 'parameters["' camelCaseName '"]') hasMultipleBodyParameters=../hasMultipleBodyParameters}}
+            {{~/each}}
         {{#if hasAllOptionalParameters}} } {{/if}}
         {{/equalsLength}}
     {{/isEmpty}}
