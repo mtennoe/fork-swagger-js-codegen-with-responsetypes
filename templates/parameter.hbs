@@ -1,0 +1,25 @@
+{{#if isQueryParameter~}}
+
+    {{~#if isSingleton}}
+        queryParams['{{name}}'] = '{{singleton}}';
+    {{/if}}
+    {{#unless isSingleton}}
+        {{#if isPatternType}}
+            Object.keys(parameters).forEach(function(parameterName) {
+            if(new RegExp('{{&pattern}}').test(parameterName)){
+            queryParams[parameterName] = {{key}};
+            }
+            });
+        {{else}}
+            setParam(queryParams, '{{name}}',  {{key}});
+        {{/if}}
+    {{/unless~}}
+
+{{~else if isBodyParameter~}}
+    {{#or hasMultipleBodyParameters isAtomic}}
+        setParam(data, '{{name}}',  {{key}});
+    {{else}}
+        data = {{key}};
+    {{/or}}
+{{~/if~}}
+{{!-- TODO: FormParameter & HeaderParameter --}}
