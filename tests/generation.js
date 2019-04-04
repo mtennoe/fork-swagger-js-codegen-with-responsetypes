@@ -87,7 +87,7 @@ list.forEach(function(file) {
     result = CodeGen.generateCode({
       swagger: swagger,
       template: {
-        class: path.join(__dirname, '../templates/class.hbs'),
+        main: path.join(__dirname, '../templates/main.hbs'),
         method: path.join(__dirname, '../templates/method.hbs')
       }
     });
