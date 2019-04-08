@@ -22,9 +22,9 @@ export const DEFAULT_OPTIONS: Options = {
     parameter: join(DEFAULT_TEMPLATE_PATH, "parameter.hbs"),
     jsdoc: join(DEFAULT_TEMPLATE_PATH, "jsdoc.hbs")
   },
-  beautify: true,
+  formatCode: true,
   hbsContext: {},
-  beautifyOptions: {},
+  prettierOptions: {},
   getNamespace(tag: string): string {
     return getNamespace(tag);
   },

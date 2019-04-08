@@ -1,5 +1,6 @@
 import { HttpOperation, Swagger } from "../swagger/Swagger";
 import { DEFAULT_OPTIONS } from "./default";
+import * as prettier from "prettier";
 
 export interface TemplateLocationsOptional extends Partial<TemplateLocations> {}
 
@@ -19,9 +20,9 @@ export interface Options {
   readonly includeDeprecated: boolean;
   readonly imports: ReadonlyArray<string>;
   readonly template: TemplateLocationsOptional;
-  readonly beautify: boolean;
   readonly hbsContext: any;
-  readonly beautifyOptions: JsBeautifyOptions;
+  readonly formatCode: boolean;
+  readonly prettierOptions: prettier.Options;
   getNamespace(tag: string): string;
   getMethodName(op: HttpOperation, httpVerb: string, path: string): string;
 }

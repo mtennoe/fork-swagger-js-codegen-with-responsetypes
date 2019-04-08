@@ -1,7 +1,7 @@
 {
   "name": "swagger-taxos-codegen",
   "main": "./lib/codegen.js",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A Swagger Codegenerator tailored for typescript - based on axios.",
   "scripts": {
     "pretest": "npm run build",
@@ -42,19 +42,19 @@
     "commander": "^2.19.0",
     "handlebars": "^4.1.1",
     "handlebars-helpers": "^0.10.0",
-    "js-beautify": "^1.8.9",
     "jshint": "^2.9.7",
     "lodash": "^4.17.11",
-    "update-notifier": "^2.5.0"
+    "update-notifier": "^2.5.0",
+    "prettier": "1.15.3"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
     "@types/handlebars-helpers": "^0.5.2",
     "@types/jest": "^23.3.10",
-    "@types/js-beautify": "^1.8.0",
     "@types/lodash": "^4.14.119",
     "@types/mustache": "^0.8.32",
     "@types/node": "^10.12.18",
+    "@types/prettier": "^1.16.1",
     "final-fs": "^1.6.0",
     "grunt": "^1.0.3",
     "grunt-contrib-jshint": "^2.0.0",
@@ -64,7 +64,6 @@
     "jest": "^23.6.0",
     "lint-staged": "^8.1.0",
     "matchdep": "^2.0.0",
-    "prettier": "1.15.3",
     "request": "^2.88.0",
     "superagent": "^4.0.0",
     "tmp": "0.0.33",

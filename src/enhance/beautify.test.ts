@@ -1,8 +1,9 @@
 import { beautifyCode } from "./beautify";
 
 const beautified = `function helloWorld() {
-    return 'hello world'
-};`;
+    return 'hello world';
+}
+`;
 
 describe("beautify", (): void => {
   it("returns the beautified code when true was specified", () => {

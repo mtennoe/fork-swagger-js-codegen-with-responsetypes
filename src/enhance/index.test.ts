@@ -7,7 +7,7 @@ describe("enhanceCode", () => {
   it("calls beautify with the correct arguments", () => {
     const code = `function helloWorld(){return'hello world'};`;
 
-    enhanceCode(code, { beautify: false, beautifyOptions: {} });
+    enhanceCode(code, { formatCode: false, prettierOptions: {} });
 
     expect(beautifyCode).toBeCalledWith(false, code, {});
   });

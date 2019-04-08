@@ -1,23 +1,22 @@
-import { js_beautify } from "js-beautify";
 import { defaults } from "lodash";
+import { format, Options } from "prettier";
 
-const DEFAULT_BEAUTIFY_OPTIONS: JsBeautifyOptions = {
-  indent_size: 4,
-  max_preserve_newlines: 2
+const DEFAULT_PRETTIER_OPTIONS: Options = {
+  parser: "typescript",
+  tabWidth: 4,
+  useTabs: false,
+  singleQuote: true
 };
 
-export type BeautifyOptions = JsBeautifyOptions;
+export type BeautifyOptions = Options;
 
 export function beautifyCode(
-  beautify: boolean,
+  formatCode: boolean,
   source: string,
   options: BeautifyOptions = {}
 ): string {
-  // Backwards compatible js_beautify
-  if (beautify) {
-    return js_beautify(source, defaults(options, DEFAULT_BEAUTIFY_OPTIONS));
+  if (formatCode) {
+    return format(source, defaults(options, DEFAULT_PRETTIER_OPTIONS));
   }
-
-  // Return original source if no beautify option was given
   return source;
 }

@@ -10,7 +10,7 @@ The typescript generator is based on [axios](https://github.com/axios/axios) and
 **This fork improvements:**
 
 - [x] Change template engine to more powerful handlebars
-- [x] Move more logic to template
+- [x] Change code formatter to [Prettier](https://prettier.io) (better support for typescript)
 - [x] Change http client to [axios](https://github.com/axios/axios)
 - [x] Add support for grouping methods by swagger tags
 - [x] Custom parsing function for method name & namespace
@@ -166,18 +166,17 @@ declare module "vue/types/vue" {
   [HttpOperation](https://swagger.io/specification/#operationObject) \
   Default: `(op, httpVerb, path) => op.operationId || ...`
 
-- `beautify` - Whether or not to beautify the generated code \
+- `formatCode` - Whether or not to beautify the generated code \
   Type: `boolean` \
   Default: `true`
 
-- `beautifyOptions` - Options to be passed to the beautify command. See js-beautify for all available options. \
+- `prettierOptions` - Options to be passed to the code formatter. [See](https://prettier.io/docs/en/options.html) \
   Type: `object` \
-  Default: `{indent_size: 4, max_preserve_newlines: 2}`
+  Default: `{tabWidth: 4, useTabs: false, singleQuote: true}`
 
 ## Custom templates
 
 > The code is generated using [handlebars templates](https://handlebarsjs.com) and some [helpers](https://github.com/helpers/handlebars-helpers).
-> Quality is checked by [jshint](https://github.com/jshint/jshint/) and beautified by [js-beautify](https://github.com/beautify-web/js-beautify).
 
 ```javascript
 const tsSourceCode = CodeGen.generateCode({

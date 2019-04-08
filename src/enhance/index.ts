@@ -1,10 +1,10 @@
 import { beautifyCode, BeautifyOptions } from "./beautify";
 
 export interface EnhanceOptions {
-  beautify: boolean;
-  beautifyOptions: BeautifyOptions;
+  formatCode: boolean;
+  prettierOptions: BeautifyOptions;
 }
 
 export function enhanceCode(source: string, opts: EnhanceOptions): string {
-  return beautifyCode(opts.beautify, source, opts.beautifyOptions);
+  return beautifyCode(opts.formatCode, source, opts.prettierOptions);
 }
