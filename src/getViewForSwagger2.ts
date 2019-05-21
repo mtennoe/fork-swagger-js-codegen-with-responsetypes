@@ -68,6 +68,7 @@ export function getViewForSwagger2(opts: CodeGenOptions): ViewData {
 
   data.methods = methods;
 
+  //Sorting methods by tag
   for (const method of methods) {
     if (method.tags.length === 0) {
       data.globalMethods.push(method);
@@ -83,10 +84,20 @@ export function getViewForSwagger2(opts: CodeGenOptions): ViewData {
     }
   }
 
-  data.definitions = makeDefinitionsFromSwaggerDefinitions(
+  const definitions = makeDefinitionsFromSwaggerDefinitions(
     swagger.definitions,
     swagger
   );
+
+  // Removing all repeated generic interface
+  const definitionsMap = new Map();
+
+  for (let def of definitions) {
+    const name = def.name.replace(/<.*>/, "");
+    if (!definitionsMap.has(name)) definitionsMap.set(name, def);
+  }
+
+  data.definitions = Array.from(definitionsMap.values());
 
   return {
     ...data
