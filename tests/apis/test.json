@@ -12,7 +12,7 @@
         "/Users/{id}": {
             "head": {
                 "tags": ["User"],
-                "summary": "Check whether a model instance exists in the data source.",
+                "summary": "Check whether a user instance exists in the data source.",
                 "externalDocs": {
                     "description": "More info on the WIKI",
                     "url": "https://example.atlassian.net/wiki/pages/example"
@@ -21,10 +21,9 @@
                 "parameters": [{
                     "name": "id",
                     "in": "path",
-                    "description": "Model id",
+                    "description": "User id",
                     "required": true,
-                    "type": "string",
-                    "format": "JSON"
+                    "type": "string"
                 }],
                 "responses": {
                     "200": {
@@ -36,8 +35,41 @@
                 },
                 "deprecated": false
             }
+        },
+
+        "/Admins/{id}": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Returns the details for the requested admin user.",
+                "externalDocs": {
+                    "description": "More info on the WIKI",
+                    "url": "https://example.atlassian.net/wiki/pages/example"
+                },
+                "operationId": "User.get_Admin_{id}",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Admin id",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "$ref": "#/responses/get_admin_200"
+                    }
+                },
+                "deprecated": false
+            }
         }
-   },
+    },
+    "responses": {
+        "get_admin_200": {
+            "description": "Admin user details",
+            "schema": {
+                "$ref": "#/definitions/User"
+            }
+        }
+    },
     "definitions": {
         "xany": {
             "properties": {}

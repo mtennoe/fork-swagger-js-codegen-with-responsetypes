@@ -2,6 +2,7 @@ import { convertType } from "../typescript";
 import { HttpOperation, Swagger, SwaggerType } from "../swagger/Swagger";
 import { uniq, entries } from "lodash/fp";
 import { TypeSpec } from "../typespec";
+import { isReference, makeReferenceTypeSpec } from "../type-mappers/reference";
 
 const defaultResponseType = "void";
 const defaultHttpStatusType = "number";
@@ -29,22 +30,47 @@ export const renderResponseTypes = (
   uniq(
     responseTypesToStrings(
       responseTypeName,
-      convertResponseTypes(responseTypes(httpOperation), swagger)
+      convertResponseTypes(responseTypes(httpOperation, swagger), swagger)
     )
   ).join(" | ");
+
+/**
+ * Checks if the response type is a reference.
+ * If it is a reference try to dereference it by looking it up
+ * from the pre-defined "swagger.responses" dictionary.
+ * If it isn't a reference of if the lookup failed return the
+ * original type object.
+ *
+ * @param {SwaggerType} responseType - The response type.
+ * @param {Swagger} swagger - A Swagger schema
+ * @returns {SwaggerType} The potentially deref'ed response type.
+ */
+const derefResponseRef = (
+  responseType: SwaggerType,
+  swagger: Swagger
+): SwaggerType => {
+  if (!isReference(responseType)) {
+    return responseType;
+  }
+
+  const ref = makeReferenceTypeSpec(responseType);
+  return (swagger.responses && swagger.responses[ref.target]) || responseType;
+};
 
 /**
  * Extracts the response types from a HttpOperation.
  *
  * @param {HttpOperation} httpOperation - The HttpOperation.
+ * @param {Swagger} swagger - A Swagger schema
  * @returns {ResponseType<SwaggerType>[]} The response types.
  */
 const responseTypes = (
-  httpOperation: HttpOperation
+  httpOperation: HttpOperation,
+  swagger: Swagger
 ): ResponseType<SwaggerType>[] =>
   entries(httpOperation.responses).map(kvp => ({
     statusType: kvp[0],
-    bodyType: kvp[1]
+    bodyType: derefResponseRef(kvp[1], swagger)
   }));
 
 /**

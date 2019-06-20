@@ -144,6 +144,9 @@ export interface Swagger {
   readonly parameters: {
     readonly [index: string]: Parameter;
   };
+  readonly responses?: {
+    readonly [index: string]: SwaggerType;
+  };
   readonly produces: ReadonlyArray<string>;
   readonly consumes: ReadonlyArray<string>;
 }
