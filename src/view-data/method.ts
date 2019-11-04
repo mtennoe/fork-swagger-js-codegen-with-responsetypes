@@ -113,9 +113,10 @@ function getPathToMethodName(httpVerb: string, path: string): string {
   });
 
   const result = camelCase(segments.join("-"));
-  return `${httpVerb.toLowerCase()}${result[0].toUpperCase()}${result.substring(
-    1
-  )}`;
+  if(result.length > 0)
+    return `${httpVerb.toLowerCase()}${result[0].toUpperCase()}${result.substring(1)}`;
+  else
+    return "root";
 }
 
 const groupMethodsByMethodName = (methods: Method[]): Method[][] =>
