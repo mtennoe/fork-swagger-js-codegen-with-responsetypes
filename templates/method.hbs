@@ -2,39 +2,39 @@
 
 {{> methodSignature}}{
 
-    {{#equalsLength parameters 1}}
-        let path = `{{pathTemplate}}`;
-    {{else}}
-        let path = `{{pathTemplateForParameters}}`;
-    {{/equalsLength}}
-    let queryParams : any = {};
-    let data : any = {};
+{{#equalsLength parameters 1}}
+let path = `{{pathTemplate}}`;
+{{else}}
+let path = `{{pathTemplateForParameters}}`;
+{{/equalsLength}}
+let queryParams : any = {};
+let data : any = {};
 
-    {{^isEmpty parameters}}
-        {{#equalsLength parameters 1}}
-            {{#with parameters.[0]}}
-                {{> parameter key=camelCaseName}}
-            {{/with}}
-        {{else}}
+{{^isEmpty parameters}}
+{{#equalsLength parameters 1}}
+{{#with parameters.[0]}}
+{{> parameter key=camelCaseName}}
+{{/with}}
+{{else}}
 
-        {{#if hasAllOptionalParameters}}if(parameters !== undefined){ {{/if}}
-            {{#each parameters~}}
-                {{> parameter key=(concat 'parameters["' camelCaseName '"]') hasMultipleBodyParameters=../hasMultipleBodyParameters}}
-            {{~/each}}
-        {{#if hasAllOptionalParameters}} } {{/if}}
-        {{/equalsLength}}
-    {{/isEmpty}}
+{{#if hasAllOptionalParameters}}if(parameters !== undefined){ {{/if}}
+{{#each parameters~}}
+{{> parameter key=(concat 'parameters["' camelCaseName '"]') hasMultipleBodyParameters=../hasMultipleBodyParameters}}
+{{~/each}}
+{{#if hasAllOptionalParameters}} } {{/if}}
+{{/equalsLength}}
+{{/isEmpty}}
 
-    return axios.request({
-        url: path,
-        method: '{{method}}',
-        params: queryParams,
-        data: data,
-        ...config
-    })
+return axios.request({
+url: path,
+method: '{{method}}',
+params: queryParams,
+data: data,
+...config
+})
 
 },
 
 ${{> methodSignature}}{
-    return this.{{> methodSignature}}.then(res => res && res.data)
+return this.{{> methodSignature}}.then(res => res && res.data)
 },

@@ -50,6 +50,11 @@ export function getSuccessfulResponseType(
       convertedType.target ||
       convertedType.tsType ||
       defaultSuccessfulResponseType;
+    if (convertedType.properties && convertedType.properties.length !== 0) {
+      successfulResponseType = `{${convertedType.properties
+        .map(p => `${p.name}: ${p.tsType}`)
+        .join(", ")}}`;
+    }
   } catch (error) {
     successfulResponseType = defaultSuccessfulResponseType;
   }
