@@ -16,6 +16,7 @@ export interface TypeSpec {
   readonly tsType: TsType | string | undefined;
   readonly target: string | undefined;
   readonly properties: ReadonlyArray<TypeSpec> | undefined;
+  readonly elementType?: TypeSpec | undefined;
 }
 
 export function makeTypeSpecFromSwaggerType(

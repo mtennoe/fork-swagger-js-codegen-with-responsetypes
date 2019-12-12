@@ -1,5 +1,6 @@
 import { convertType } from "../typescript";
 import { HttpOperation, Swagger, SwaggerType } from "../swagger/Swagger";
+import { TypeSpec } from "../typespec";
 
 const defaultSuccessfulResponseType = "void";
 
@@ -31,6 +32,31 @@ function getSuccessfulResponse(op: HttpOperation): SwaggerType {
   return op.responses[definedSuccessCodes[0]];
 }
 
+function generateResponseType(
+  property: TypeSpec,
+  topArray: Boolean = false
+): String {
+  let string = "";
+  if (!topArray) {
+    string = `${property.name}${property.isNullable ? "?" : ""}: `;
+  }
+  if (property.isRef) {
+    return `${string}${property.target}`;
+  }
+  if (property.isArray) {
+    return `${string}Array<${generateResponseType(
+      property.elementType!,
+      true
+    )}>`;
+  }
+  if (property.isObject) {
+    return `${string}{${property.properties!.map(p =>
+      generateResponseType(p)
+    )}}`;
+  }
+  return `${string}${property.tsType}`;
+}
+
 export function getSuccessfulResponseType(
   op: HttpOperation,
   swagger: Swagger
@@ -52,7 +78,7 @@ export function getSuccessfulResponseType(
       defaultSuccessfulResponseType;
     if (convertedType.properties && convertedType.properties.length !== 0) {
       successfulResponseType = `{${convertedType.properties
-        .map(p => `${p.name}: ${p.tsType}`)
+        .map(p => generateResponseType(p))
         .join(", ")}}`;
     }
   } catch (error) {
