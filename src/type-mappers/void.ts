@@ -21,6 +21,7 @@ export interface VoidTypeSpec extends TypeSpec {
  * @returns {boolean} A boolean indicating that the SwaggerType should be annotated as a void typescript type.
  */
 export const isVoidType = (swaggerType: SwaggerType): boolean =>
+  Object.keys(swaggerType).length !== 0 &&
   (swaggerType.type as string | undefined) === undefined &&
   (swaggerType.required as boolean | string[] | undefined) === undefined &&
   swaggerType.$ref === undefined &&
